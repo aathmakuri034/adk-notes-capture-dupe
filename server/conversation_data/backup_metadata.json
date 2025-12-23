@@ -1,0 +1,216 @@
+{
+  "version": "1.0",
+  "created_at": "2025-12-19T20:38:40.333240",
+  "last_updated": "2025-12-20T14:29:52.132716",
+  "total_jobs": 10,
+  "jobs": [
+    {
+      "id": "a9a04a8c888a",
+      "title": "Fix Leaky Pipe",
+      "summary": "A leaky pipe in the basement ceiling is causing wet drywall and active dripping.",
+      "metadata": {
+        "estimated_duration_minutes": 180,
+        "urgency": "high",
+        "location_context": "Basement Ceiling",
+        "job_category": "Plumbing",
+        "problem_type": "Leak",
+        "complexity": "intermediate",
+        "tools needed": "common handtools",
+        "key_details": [
+          "Leaky pipe",
+          "Located in basement ceiling",
+          "Wet drywall",
+          "Active dripping water"
+        ]
+      },
+      "created_at": "2025-12-19T21:03:32.596992",
+      "conversation_turns": 8
+    },
+    {
+      "id": "6d26974933c3",
+      "title": "Stove Gas Leak Repair",
+      "summary": "The customer's stove in the kitchen has a gas leak that needs to be repaired.",
+      "metadata": {
+        "estimated_duration_minutes": 90,
+        "urgency": "high",
+        "location_context": "Kitchen",
+        "job_category": "General",
+        "problem_type": "Leak",
+        "complexity": "complex",
+        "tools needed": "common handtools",
+        "key_details": [
+          "Stove gas leak",
+          "Located in kitchen"
+        ]
+      },
+      "created_at": "2025-12-20T14:29:16.047159",
+      "conversation_turns": 6
+    },
+    {
+      "id": "64c24a28110c",
+      "title": "Gas Leak Repair - Stove",
+      "summary": "A gas leak has been detected from the stove located in the kitchen.",
+      "metadata": {
+        "estimated_duration_minutes": 90,
+        "urgency": "high",
+        "location_context": "Kitchen",
+        "job_category": "Plumbing",
+        "problem_type": "Leak",
+        "complexity": "intermediate",
+        "tools needed": "Power tools / common handtools",
+        "key_details": [
+          "Gas leak from stove",
+          "Located in kitchen"
+        ]
+      },
+      "created_at": "2025-12-20T14:29:19.908440",
+      "conversation_turns": 7
+    },
+    {
+      "id": "c45253787de8",
+      "title": "Fix Gas Leak in Stove",
+      "summary": "A gas leak has been detected from the stove located in the kitchen.",
+      "metadata": {
+        "estimated_duration_minutes": 90,
+        "urgency": "high",
+        "location_context": "Kitchen",
+        "job_category": "General",
+        "problem_type": "Leak",
+        "complexity": "intermediate",
+        "tools needed": "common handtools",
+        "communication preference": "",
+        "key_details": [
+          "Stove gas leak",
+          "Located in kitchen"
+        ]
+      },
+      "created_at": "2025-12-20T14:29:28.472446",
+      "conversation_turns": 9
+    },
+    {
+      "id": "9323b418e673",
+      "title": "Stove Gas Leak Repair",
+      "summary": "The customer's stove in the kitchen has a gas leak.",
+      "metadata": {
+        "estimated_duration_minutes": 90,
+        "urgency": "high",
+        "location_context": "Kitchen",
+        "job_category": "General",
+        "problem_type": "Leak",
+        "complexity": "intermediate",
+        "tools needed": "common handtools",
+        "communication preference": "Not specified",
+        "key_details": [
+          "Stove leak",
+          "Gas leak",
+          "Located in kitchen"
+        ]
+      },
+      "created_at": "2025-12-20T14:29:40.331775",
+      "conversation_turns": 11
+    },
+    {
+      "id": "59cc4c764e80",
+      "title": "Microwave Repair",
+      "summary": "The customer's microwave is not working.",
+      "metadata": {
+        "estimated_duration_minutes": 60,
+        "urgency": "medium",
+        "location_context": "Kitchen",
+        "job_category": "General",
+        "problem_type": "Repair",
+        "complexity": "intermediate",
+        "tools needed": "common handtools",
+        "communication preference": "Not specified",
+        "key_details": [
+          "Microwave not working",
+          "Need to determine if completely dead or running but not heating",
+          "Need to determine if countertop or over-the-range model"
+        ]
+      },
+      "created_at": "2025-12-20T14:29:40.331784",
+      "conversation_turns": 11
+    },
+    {
+      "id": "82b3eac84848",
+      "title": "Fix Leaking Stove",
+      "summary": "The stove in the kitchen has a gas leak.",
+      "metadata": {
+        "estimated_duration_minutes": 90,
+        "urgency": "high",
+        "location_context": "Kitchen",
+        "job_category": "General",
+        "problem_type": "Leak",
+        "complexity": "intermediate",
+        "tools needed": "Power tools / common handtools",
+        "key_details": [
+          "Stove leak",
+          "Gas leak",
+          "Located in kitchen"
+        ]
+      },
+      "created_at": "2025-12-20T14:29:45.860544",
+      "conversation_turns": 12
+    },
+    {
+      "id": "66572359e7f5",
+      "title": "Repair Microwave",
+      "summary": "The microwave is running but not heating food.",
+      "metadata": {
+        "estimated_duration_minutes": 75,
+        "urgency": "medium",
+        "location_context": "Kitchen",
+        "job_category": "General",
+        "problem_type": "Repair",
+        "complexity": "intermediate",
+        "tools needed": "common handtools",
+        "key_details": [
+          "Microwave not working",
+          "Running but not heating food"
+        ]
+      },
+      "created_at": "2025-12-20T14:29:45.860559",
+      "conversation_turns": 12
+    },
+    {
+      "id": "549cc2d8b52c",
+      "title": "Fix Leaking Stove",
+      "summary": "A stove in the kitchen is experiencing a gas leak.",
+      "metadata": {
+        "estimated_duration_minutes": 90,
+        "urgency": "high",
+        "location_context": "Kitchen",
+        "job_category": "General",
+        "problem_type": "Leak",
+        "complexity": "intermediate",
+        "tools needed": "common handtools",
+        "key_details": [
+          "Gas leak",
+          "Stove in kitchen"
+        ]
+      },
+      "created_at": "2025-12-20T14:29:52.132692",
+      "conversation_turns": 13
+    },
+    {
+      "id": "f44c02f755b2",
+      "title": "Repair Microwave",
+      "summary": "An over-the-range microwave is running but not heating food.",
+      "metadata": {
+        "estimated_duration_minutes": 60,
+        "urgency": "medium",
+        "location_context": "Kitchen",
+        "job_category": "General",
+        "problem_type": "Repair",
+        "complexity": "intermediate",
+        "tools needed": "common handtools",
+        "key_details": [
+          "Microwave running but not heating",
+          "Over-the-range model"
+        ]
+      },
+      "created_at": "2025-12-20T14:29:52.132710",
+      "conversation_turns": 13
+    }
+  ]
+}
