@@ -66,7 +66,7 @@ class StreamingService(BaseStreamServer):
         # Create session service
         self.session_service = InMemorySessionService()
 
-        # ADD THIS: Initialize conversation tracker
+        # Initialize conversation tracker
         self.conversation_tracker = JobSummaryTracker()
         stream_logger.info("Job Summary Tracker initialized")
 
@@ -140,8 +140,7 @@ class StreamingService(BaseStreamServer):
                     session_id=session_id,
                     title=title,
                     description=description,
-                    details=details,
-                    conversation_turns=0
+                    details=details
                 )
             )
             

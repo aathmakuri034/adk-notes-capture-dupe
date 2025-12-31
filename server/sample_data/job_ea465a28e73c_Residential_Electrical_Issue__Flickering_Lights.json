@@ -1,0 +1,26 @@
+{
+  "session_id": "session_dadc69dc450e486c",
+  "job_id": "ea465a28e73c",
+  "category": "electrical",
+  "title": "Residential Electrical Issue: Flickering Lights",
+  "description": "Customer reported flickering lights limited to one room, affecting five fixtures connected to the same circuit breaker.",
+  "location_type": "indoor",
+  "specific_location": "Single Room",
+  "urgency": "medium",
+  "complexity": "intermediate",
+  "estimated_duration_minutes": 180,
+  "problem_type": "repair",
+  "tools_needed": "Wire strippers, multimeter, etc",
+  "key_details": [
+    "Flickering lights limited to one room",
+    "5 fixtures affected",
+    "All on the same circuit breaker"
+  ],
+  "has_images": false,
+  "has_video": false,
+  "created_at": "2025-12-25 19:50:31.208270",
+  "last_updated": "2025-12-25 19:50:31.210405",
+  "installation_type": "lighting",
+  "has_existing_panel": true,
+  "permits_required": false
+}

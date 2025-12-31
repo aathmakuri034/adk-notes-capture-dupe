@@ -1,0 +1,28 @@
+{
+  "session_id": "session_58c704308d324d68",
+  "job_id": "07ad5a4ab231",
+  "category": "electrical",
+  "title": "Kitchen Outlet Inspection (Warm Outlets)",
+  "description": "Multiple kitchen outlets are becoming warm, indicating a potential wiring or overload issue, requiring professional inspection.",
+  "location_type": "indoor",
+  "specific_location": "Kitchen",
+  "urgency": "high",
+  "complexity": "intermediate",
+  "estimated_duration_minutes": 180,
+  "problem_type": "inspection",
+  "customer_notes": "Breakers are not tripped, and there are no strange smells.",
+  "tools_needed": "Wire strippers, multimeter, etc",
+  "key_details": [
+    "Location: Kitchen",
+    "Multiple outlets are warm",
+    "Breaker status: Not tripped",
+    "Professional inspection needed"
+  ],
+  "has_images": false,
+  "has_video": false,
+  "created_at": "2025-12-25 19:59:17.905518",
+  "last_updated": "2025-12-25 19:59:17.909003",
+  "voltage_requirement": "120V",
+  "has_existing_panel": true,
+  "permits_required": false
+}

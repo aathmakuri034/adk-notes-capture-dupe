@@ -1,0 +1,27 @@
+{
+  "session_id": "session_7dbc611d3c384560",
+  "job_id": "fdfdd073cb00",
+  "category": "hvac",
+  "title": "Central Air Cooling Problem",
+  "description": "The second floor is not cooling evenly, with specific rooms experiencing issues, likely due to ductwork or vent problems.",
+  "location_type": "indoor",
+  "specific_location": "Second Floor",
+  "urgency": "medium",
+  "complexity": "intermediate",
+  "estimated_duration_minutes": 120,
+  "problem_type": "no cooling",
+  "customer_notes": "Potential cause is ductwork or vent blockage/leak.",
+  "tools_needed": "Gauges, refrigerant, etc",
+  "key_details": [
+    "Second Floor",
+    "Uneven cooling (certain rooms only)",
+    "Central Air system",
+    "Ductwork or vent blockage/leak"
+  ],
+  "has_images": false,
+  "has_video": false,
+  "created_at": "2025-12-26 07:14:12.628056",
+  "last_updated": "2025-12-26 07:14:12.628844",
+  "system_type": "AC",
+  "issue_type": "uneven cooling"
+}
