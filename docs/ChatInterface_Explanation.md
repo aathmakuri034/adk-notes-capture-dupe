@@ -2,7 +2,7 @@
 
 ## Overview
 
-The [`ChatInterface`](components/ChatInterface.tsx:25) component is a React-based chat interface designed for interacting with a voice agent via WebSocket. It supports text messaging, voice recording/playback, image and video uploads, and real-time communication with a backend server. The component is built using TypeScript and integrates with custom libraries for WebSocket handling and audio recording.
+The [`ChatInterface`](components/ChatInterface.tsx:25) component is a React-based chat interface designed for interacting with a voice agent via WebSocket. It supports text messaging, voice recording/playback, image and video uploads, real-time communication with a backend server, and job data tracking. The component is built using TypeScript and integrates with custom libraries for WebSocket handling and audio recording.
 
 ## Key Features
 
@@ -12,6 +12,8 @@ The [`ChatInterface`](components/ChatInterface.tsx:25) component is a React-base
 - **Connection Management**: Handles WebSocket connection states (disconnected, connecting, connected).
 - **Audio Playback**: Queues and plays audio chunks received from the server.
 - **Optimistic UI Updates**: Adds user messages immediately to the UI for better responsiveness.
+- **Job Data Tracking**: Monitors for newly created jobs during the session and provides navigation to the job board.
+- **Session Management**: Tracks session start time and polls for job creation.
 
 ## Component Structure
 
@@ -30,6 +32,8 @@ The component uses several state variables:
 - `messages`: Array of [`Message`](components/ChatInterface.tsx:7) objects containing chat history.
 - `inputText`: String for the text input field.
 - `isAgentSpeaking`: Boolean indicating if the agent is currently speaking.
+- `hasJobData`: Boolean indicating if jobs have been created during the current session.
+- `isStarted`: Boolean indicating if the assessment has been started.
 
 ### Refs
 
@@ -71,6 +75,12 @@ Various refs are used for managing DOM elements, audio context, WebSocket, recor
 - [`handleImageUpload`](components/ChatInterface.tsx:48) and [`handleVideoUpload`](components/ChatInterface.tsx:52): Trigger file input clicks.
 - [`handleFileChange`](components/ChatInterface.tsx:56) and [`handleVideoFileChange`](components/ChatInterface.tsx:86): Process selected files, convert to base64, add to messages, and send via WebSocket.
 
+### Job Data Management
+
+- [`handleSkip`](components/ChatInterface.tsx:59): Navigates to the job board page when job data is available.
+- **Job Data Polling**: useEffect hook that polls `/api/jobs` endpoint every 2 seconds to check for newly created jobs during the session.
+- **Session Tracking**: Tracks session start time and filters jobs created after session initialization.
+
 ### UI and Effects
 
 - [`scrollToBottom`](components/ChatInterface.tsx:127): Scrolls the messages container to the bottom.
@@ -80,9 +90,10 @@ Various refs are used for managing DOM elements, audio context, WebSocket, recor
 
 The component renders a chat interface with:
 
-- **Header**: Displays title and connection status indicator.
-- **Messages Area**: Shows chat messages, with conditional rendering for start screen and speaking indicator.
+- **Header**: Displays title, connection status indicator, and conditional "View Jobs" button when job data is detected.
+- **Messages Area**: Shows chat messages, with conditional rendering for enhanced start screen and speaking indicator.
 - **Input Area**: Includes buttons for recording, image/video upload, and text input form.
+- **Start Screen**: Enhanced welcome screen with "Start Assessment" button that initializes the session and begins job data tracking.
 
 ## Dependencies
 
@@ -96,3 +107,6 @@ The component renders a chat interface with:
 - Video uploads are limited to 50MB.
 - Audio is processed at 24kHz sample rate.
 - The component is forward-ref enabled for external control.
+- Job data polling occurs every 2 seconds when the assessment is started.
+- Session start time is tracked to filter jobs created during the current session.
+- The "View Jobs" button appears when new jobs are detected, allowing users to navigate to the job board.
