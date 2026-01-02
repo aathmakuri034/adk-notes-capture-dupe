@@ -230,6 +230,21 @@ class StreamingService(BaseStreamServer):
                                     image_bytes = base64.b64decode(image_data)
                                     stream_logger.info(f"Received image ({mime_type}) from client, sending to Gemini...")
                                     
+                                    # Saves the image locally
+                                    os.makedirs("transcripts", exist_ok=True)
+                                    image_filename = f"{session_id}_{uuid.uuid4().hex}.jpg"
+                                    image_path = f"transcripts/{image_filename}"
+
+                                    with open(image_path, "wb") as img_file:
+                                        img_file.write(image_bytes)
+
+                                    # Add line to transcript
+                                    with open(f"transcripts/{session_id}.txt", "a", encoding="utf-8") as f:
+                                        f.write(f"IMAGE UPLOADED: {image_filename}\n\n")
+
+                                    stream_logger.info(f"Saved image to {image_path}")
+
+
                                     # Send as a content message (better for static images)
                                     live_request_queue.send_content(
                                         types.Content(
@@ -532,6 +547,28 @@ class StreamingService(BaseStreamServer):
                                 unique_texts = list(dict.fromkeys(output_texts))
                                 stream_logger.info(
                                     f"Generated model response: {' '.join(unique_texts)}")
+                            
+                            # Saves this turn to a local file
+                            # Deduplicate and join text segments
+                            user_turn = " ".join(dict.fromkeys(input_texts)) if input_texts else ""
+                            model_turn = " ".join(dict.fromkeys(output_texts)) if output_texts else ""
+
+                            # Ensure transcripts directory exists
+                            os.makedirs("transcripts", exist_ok=True)
+
+                            # Build file path using session ID
+                            transcript_path = f"transcripts/{session_id}.txt"
+
+                            # Append to transcript file
+                            with open(transcript_path, "a", encoding="utf-8") as f:
+                                if user_turn:
+                                    f.write(f"USER: {user_turn}\n")
+                                if model_turn:
+                                    f.write(f"MODEL: {model_turn}\n")
+                                f.write("\n--- TURN COMPLETE ---\n\n")
+
+                            stream_logger.info(f"Turn logged to: {transcript_path}")
+                            
                             # Reset for next turn
                             input_texts = []
                             output_texts = []

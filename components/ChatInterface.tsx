@@ -2,6 +2,7 @@
 
 import { useState, useEffect, useRef, forwardRef, useImperativeHandle, useCallback } from 'react';
 import { VoiceAgentWebSocket } from '@/lib/websocket-client';
+import { useRouter } from 'next/navigation';
 import { AudioRecorder } from '@/lib/audio-recorder';
 
 interface Message {
@@ -26,12 +27,14 @@ const ChatInterface = forwardRef<ChatInterfaceRef, ChatInterfaceProps>(({
     onNotesList,
     onError
 }, ref) => {
+    const router = useRouter();
     const [isConnected, setIsConnected] = useState(false);
     const [isRecording, setIsRecording] = useState(false);
     const [connectionStatus, setConnectionStatus] = useState<'disconnected' | 'connecting' | 'connected'>('disconnected');
     const [messages, setMessages] = useState<Message[]>([]);
     const [inputText, setInputText] = useState('');
     const [isAgentSpeaking, setIsAgentSpeaking] = useState(false);
+    const [hasJobData, setHasJobData] = useState(false);
 
     const audioContextRef = useRef<AudioContext | null>(null);
     const audioPlayQueueRef = useRef<ArrayBuffer[]>([]);
@@ -51,6 +54,10 @@ const ChatInterface = forwardRef<ChatInterfaceRef, ChatInterfaceProps>(({
 
     const handleVideoUpload = () => {
         videoInputRef.current?.click();
+    };
+
+    const handleSkip = () => {
+        router.push('/jobs');
     };
 
     const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -208,6 +215,45 @@ const ChatInterface = forwardRef<ChatInterfaceRef, ChatInterfaceProps>(({
     }, [onNotesList, onError]);
 
     const [isStarted, setIsStarted] = useState(false);
+    const sessionStartTimeRef = useRef<Date | null>(null);
+
+    // Check if new job
+    useEffect(() => {
+        const checkJobData = async () => {
+            try {
+                const response = await fetch('/api/jobs');
+                const data = await response.json();
+                
+                // Store session start time on first check
+                if (sessionStartTimeRef.current === null) {
+                    sessionStartTimeRef.current = new Date();
+                    console.log('Session started at:', sessionStartTimeRef.current);
+                    return;
+                }
+                
+                // Check if any jobs were created after session started
+                const recentJobs = data.jobs?.filter((job: any) => {
+                    const jobCreatedAt = new Date(job.created_at);
+                    return jobCreatedAt > sessionStartTimeRef.current!;
+                });
+                
+                if (recentJobs && recentJobs.length > 0) {
+                    console.log(`Found ${recentJobs.length} job(s) created during this session`);
+                    setHasJobData(true);
+                }
+            } catch (error) {
+                console.error('Error checking job data:', error);
+            }
+        };
+
+        if (isStarted) {
+            // Check immediately when started
+            checkJobData();
+            // Poll every 2 seconds to check for new jobs
+            const interval = setInterval(checkJobData, 2000);
+            return () => clearInterval(interval);
+        }
+    }, [isStarted]);
 
     const connectToAgent = useCallback(() => {
         const wsUrl = process.env.NEXT_PUBLIC_WS_URL || 'ws://localhost:8080';
@@ -488,9 +534,24 @@ const ChatInterface = forwardRef<ChatInterfaceRef, ChatInterfaceProps>(({
             {/* Header */}
             <div className="bg-gradient-to-r from-blue-600 to-indigo-600 p-4 flex justify-between items-center">
                 <h2 className="text-white font-semibold text-lg">Agent Chat</h2>
-                <div className="flex items-center space-x-2 bg-white/10 px-3 py-1 rounded-full backdrop-blur-sm">
-                    <div className={`w-2 h-2 rounded-full ${getStatusColor()} animate-pulse`}></div>
-                    <span className="text-xs text-white/90 capitalize font-medium">{connectionStatus}</span>
+                <div className="flex items-center space-x-3"> {/* ← CHANGED: space-x-2 to space-x-3 */}
+                    <div className="flex items-center space-x-2 bg-white/10 px-3 py-1 rounded-full backdrop-blur-sm">
+                        <div className={`w-2 h-2 rounded-full ${getStatusColor()} animate-pulse`}></div>
+                        <span className="text-xs text-white/90 capitalize font-medium">{connectionStatus}</span>
+                    </div>
+                    {/* Skip Button Added */}
+                    {hasJobData && (
+                        <button
+                            onClick={handleSkip}
+                            className="bg-white/20 hover:bg-white/30 text-white px-4 py-2 rounded-lg text-sm font-medium transition-all flex items-center space-x-2 backdrop-blur-sm"
+                            title="Skip to Job Board"
+                        >
+                            <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 7l5 5m0 0l-5 5m5-5H6" />
+                            </svg>
+                            <span>View Jobs</span>
+                        </button>
+                    )}
                 </div>
             </div>
 

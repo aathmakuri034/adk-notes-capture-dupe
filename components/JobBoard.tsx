@@ -1,7 +1,7 @@
 'use client';
 
 import React, { useState, useEffect } from 'react';
-import { Search, MapPin, Clock, DollarSign, AlertCircle, CheckCircle, Filter, Calendar, Briefcase } from 'lucide-react';
+import { Search, MapPin, Clock, AlertCircle, CheckCircle, Calendar, Briefcase, Code, Copy, X } from 'lucide-react';
 
 interface JobMetadata {
   estimated_duration_minutes: number;
@@ -32,6 +32,11 @@ const JobBoard = () => {
   const [urgencyFilter, setUrgencyFilter] = useState('all');
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
+
+  // JSON viewer state
+  const [showJsonModal, setShowJsonModal] = useState(false);
+  const [selectedJobJson, setSelectedJobJson] = useState<string>('');
+  const [jsonCopied, setJsonCopied] = useState(false);
 
   // Fetch jobs from API
   useEffect(() => {
@@ -74,9 +79,36 @@ const JobBoard = () => {
     setFilteredJobs(filtered);
   }, [searchQuery, categoryFilter, urgencyFilter, jobs]);
 
+  // Fetch and display JSON
+  const handleViewJson = async (jobId: string) => {
+    try {
+      const response = await fetch(`/api/jobs/${jobId}`);
+      const data = await response.json();
+      
+      if (data.success) {
+        setSelectedJobJson(data.raw_json);
+        setShowJsonModal(true);
+      } else {
+        console.error('Failed to fetch job JSON:', data.error);
+        alert('Failed to load JSON data');
+      }
+    } catch (error) {
+      console.error('Error fetching job JSON:', error);
+      alert('Error loading JSON data');
+    }
+  };
+
+  // Copy JSON to clipboard
+  const handleCopyJson = () => {
+    navigator.clipboard.writeText(selectedJobJson);
+    setJsonCopied(true);
+    setTimeout(() => setJsonCopied(false), 2000);
+  };
+
   const getUrgencyColor = (urgency: string) => {
-    switch (urgency) {
-      case 'high': return 'bg-red-100 text-red-800 border-red-200';
+    switch (urgency.toLowerCase()) {
+      case 'emergency': return 'bg-red-100 text-red-800 border-red-200';
+      case 'high': return 'bg-orange-100 text-orange-800 border-orange-200';
       case 'medium': return 'bg-yellow-100 text-yellow-800 border-yellow-200';
       case 'low': return 'bg-green-100 text-green-800 border-green-200';
       default: return 'bg-gray-100 text-gray-800 border-gray-200';
@@ -84,9 +116,9 @@ const JobBoard = () => {
   };
 
   const getComplexityColor = (complexity: string) => {
-    switch (complexity) {
-      case 'simple': return 'text-green-600';
-      case 'medium': return 'text-yellow-600';
+    switch (complexity.toLowerCase()) {
+      case 'basic': return 'text-green-600';
+      case 'intermediate': return 'text-yellow-600';
       case 'complex': return 'text-red-600';
       default: return 'text-gray-600';
     }
@@ -112,7 +144,7 @@ const JobBoard = () => {
   };
 
   const categories = ['all', ...new Set(jobs.map(j => j.metadata.job_category))];
-  const urgencies = ['all', 'high', 'medium', 'low'];
+  const urgencies = ['all', 'emergency', 'high', 'medium', 'low'];
 
   if (loading) {
     return (
@@ -208,8 +240,7 @@ const JobBoard = () => {
             {filteredJobs.map((job) => (
               <div
                 key={job.id}
-                onClick={() => setSelectedJob(job)}
-                className="bg-white rounded-xl shadow-sm border border-gray-200 p-6 hover:shadow-lg transition-all cursor-pointer hover:border-blue-300"
+                className="bg-white rounded-xl shadow-sm border border-gray-200 p-6 hover:shadow-lg transition-all"
               >
                 <div className="flex items-start justify-between mb-4">
                   <div className="flex-1">
@@ -251,9 +282,24 @@ const JobBoard = () => {
 
                 <div className="pt-4 border-t border-gray-100 flex items-center justify-between">
                   <span className="text-xs text-gray-500">Job ID: {job.id}</span>
-                  <button className="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors text-sm font-semibold">
-                    View Details
-                  </button>
+                  <div className="flex gap-2">
+                    <button 
+                      onClick={(e) => {
+                        e.stopPropagation();
+                        handleViewJson(job.id);
+                      }}
+                      className="px-3 py-2 bg-gray-800 text-white rounded-lg hover:bg-gray-900 transition-colors text-sm font-semibold flex items-center gap-2"
+                    >
+                      <Code size={16} />
+                      JSON
+                    </button>
+                    <button 
+                      onClick={() => setSelectedJob(job)}
+                      className="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors text-sm font-semibold"
+                    >
+                      View Details
+                    </button>
+                  </div>
                 </div>
               </div>
             ))}
@@ -275,7 +321,7 @@ const JobBoard = () => {
                   onClick={() => setSelectedJob(null)}
                   className="text-white hover:bg-white hover:bg-opacity-20 rounded-lg p-2 transition-colors"
                 >
-                  ✕
+                  <X size={24} />
                 </button>
               </div>
             </div>
@@ -350,13 +396,70 @@ const JobBoard = () => {
               </div>
 
               <div className="flex gap-3">
+                <button 
+                  onClick={() => handleViewJson(selectedJob.id)}
+                  className="px-6 bg-gray-800 text-white py-3 rounded-lg font-semibold hover:bg-gray-900 transition-colors flex items-center gap-2"
+                >
+                  <Code size={18} />
+                  View JSON
+                </button>
                 <button className="flex-1 bg-gradient-to-r from-blue-600 to-purple-600 text-white py-3 rounded-lg font-semibold hover:from-blue-700 hover:to-purple-700 transition-all shadow-md hover:shadow-lg">
                   Submit Bid
                 </button>
                 <button className="px-6 bg-gray-200 text-gray-700 py-3 rounded-lg font-semibold hover:bg-gray-300 transition-colors">
-                  Save for Later
+                  Save
                 </button>
               </div>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* JSON Viewer Modal */}
+      {showJsonModal && (
+        <div 
+          className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center p-4 z-50" 
+          onClick={() => setShowJsonModal(false)}
+        >
+          <div 
+            className="bg-white rounded-2xl shadow-2xl max-w-4xl w-full max-h-[90vh] overflow-hidden flex flex-col" 
+            onClick={(e) => e.stopPropagation()}
+          >
+            {/* Header */}
+            <div className="bg-gray-900 p-6 flex items-center justify-between">
+              <div className="flex items-center gap-3">
+                <Code className="text-green-400" size={24} />
+                <h2 className="text-xl font-bold text-white">Raw JSON Data</h2>
+              </div>
+              <div className="flex items-center gap-2">
+                <button
+                  onClick={handleCopyJson}
+                  className="px-4 py-2 bg-gray-800 text-white rounded-lg hover:bg-gray-700 transition-colors flex items-center gap-2"
+                >
+                  <Copy size={16} />
+                  {jsonCopied ? 'Copied!' : 'Copy'}
+                </button>
+                <button
+                  onClick={() => setShowJsonModal(false)}
+                  className="text-gray-400 hover:text-white transition-colors p-2"
+                >
+                  <X size={24} />
+                </button>
+              </div>
+            </div>
+
+            {/* JSON Content */}
+            <div className="flex-1 overflow-y-auto p-6 bg-gray-50">
+              <pre className="bg-gray-900 text-green-400 p-6 rounded-lg overflow-x-auto font-mono text-sm">
+                <code>{selectedJobJson}</code>
+              </pre>
+            </div>
+
+            {/* Footer */}
+            <div className="bg-gray-100 p-4 border-t border-gray-200">
+              <p className="text-sm text-gray-600 text-center">
+                This is the raw JSON schema data stored in the system
+              </p>
             </div>
           </div>
         </div>
