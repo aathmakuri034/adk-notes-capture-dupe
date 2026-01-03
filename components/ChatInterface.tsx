@@ -35,6 +35,9 @@ const ChatInterface = forwardRef<ChatInterfaceRef, ChatInterfaceProps>(({
     const [inputText, setInputText] = useState('');
     const [isAgentSpeaking, setIsAgentSpeaking] = useState(false);
     const [hasJobData, setHasJobData] = useState(false);
+    const [showJsonPreview, setShowJsonPreview] = useState(false);
+    const [extractedJobJson, setExtractedJobJson] = useState<any>(null);
+    const [isPaused, setIsPaused] = useState(false);
 
     const audioContextRef = useRef<AudioContext | null>(null);
     const audioPlayQueueRef = useRef<ArrayBuffer[]>([]);
@@ -47,6 +50,7 @@ const ChatInterface = forwardRef<ChatInterfaceRef, ChatInterfaceProps>(({
     const messagesEndRef = useRef<HTMLDivElement>(null);
     const fileInputRef = useRef<HTMLInputElement>(null);
     const videoInputRef = useRef<HTMLInputElement>(null);
+    const wasRecordingRef = useRef(false);
 
     const handleImageUpload = () => {
         fileInputRef.current?.click();
@@ -56,13 +60,71 @@ const ChatInterface = forwardRef<ChatInterfaceRef, ChatInterfaceProps>(({
         videoInputRef.current?.click();
     };
 
-    const handleSkip = () => {
+    const pauseConversation = () => {
+        // Stops recording if active
+        if(isRecording){
+            wasRecordingRef.current = true;
+            stopRecording()
+        }
+
+        // Clear audio queue
+        audioPlayQueueRef.current = [];
+        audioQueueRef.current = [];
+        isPlayingRef.current = false;
+        setIsAgentSpeaking(false);
+
+        setIsPaused(true);
+    };
+
+    const resumeConversation = () => {
+        setIsPaused(false);
+
+        // Resume recording if it was active before pause
+        if(wasRecordingRef.current){
+            wasRecordingRef.current = false;
+            startRecording().catch(console.error);
+        }
+    };
+
+    const handlePauseAndView = async () => {
+        try {
+            // Pause the conversation first
+            pauseConversation();
+
+            // Fetch the most recent job
+            const response = await fetch('/api/jobs');
+            const data = await response.json();
+
+            if (data.jobs && data.jobs.length > 0){
+                // Get the most recent job (first in array since its sorted)
+                const latestJob = data.jobs[0];
+
+                // Fetch full job details
+                const jobResponse = await fetch(`/api/jobs/${latestJob.id}`);
+                const jobData = await jobResponse.json();
+
+                if(jobData.success){
+                    console.log('Extracted job data:', jobData.job);
+                    setExtractedJobJson(jobData.job);
+                    setShowJsonPreview(true);
+                }
+            }
+        } catch (error) {
+            console.error("Error fetching job data: ", error);
+            if(onErrorRef.current){
+                onErrorRef.current('Failed to load job details');
+            }
+        }
+    };
+
+    const handleGoToJobBoard = () => {
         router.push('/jobs');
     };
 
+
     const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         const file = e.target.files?.[0];
-        if (!file || !wsRef.current || !isConnected) return;
+        if (!file || !wsRef.current || !isConnected || isPaused) return;
 
         // Reset file input
         if (fileInputRef.current) {
@@ -92,7 +154,7 @@ const ChatInterface = forwardRef<ChatInterfaceRef, ChatInterfaceProps>(({
 
     const handleVideoFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         const file = e.target.files?.[0];
-        if (!file || !wsRef.current || !isConnected) return;
+        if (!file || !wsRef.current || !isConnected || isPaused) return;
 
         // Validation: 50MB limit
         const maxSize = 50 * 1024 * 1024;
@@ -141,8 +203,10 @@ const ChatInterface = forwardRef<ChatInterfaceRef, ChatInterfaceProps>(({
 
     useImperativeHandle(ref, () => ({
         sendMessage: (type: string, data?: any) => {
-            if (wsRef.current && wsRef.current.isConnected()) {
+            if (wsRef.current && wsRef.current.isConnected() && !isPaused) {
                 wsRef.current.send(JSON.stringify({ type, data }));
+            } else if(isPaused){
+                console.warn('Cannot send message: Conversation paused')
             } else {
                 console.warn('Cannot send message: WebSocket not connected');
             }
@@ -162,7 +226,7 @@ const ChatInterface = forwardRef<ChatInterfaceRef, ChatInterfaceProps>(({
     };
 
     const playNextAudioChunk = useCallback(async () => {
-        if (!audioContextRef.current || audioPlayQueueRef.current.length === 0 || isPlayingRef.current) {
+        if (isPaused || !audioContextRef.current || audioPlayQueueRef.current.length === 0 || isPlayingRef.current) {
             if (audioPlayQueueRef.current.length === 0) {
                 setIsAgentSpeaking(false);
             }
@@ -203,7 +267,7 @@ const ChatInterface = forwardRef<ChatInterfaceRef, ChatInterfaceProps>(({
             isPlayingRef.current = false;
             setIsAgentSpeaking(false);
         }
-    }, []);
+    }, [isPaused]);
 
     // Refs for callbacks
     const onNotesListRef = useRef(onNotesList);
@@ -215,45 +279,44 @@ const ChatInterface = forwardRef<ChatInterfaceRef, ChatInterfaceProps>(({
     }, [onNotesList, onError]);
 
     const [isStarted, setIsStarted] = useState(false);
-    const sessionStartTimeRef = useRef<Date | null>(null);
+    const initialJobCountRef = useRef<number | null>(null);
 
-    // Check if new job
+    // Poll for new jobs but DON'T auto-pause
     useEffect(() => {
-        const checkJobData = async () => {
-            try {
-                const response = await fetch('/api/jobs');
-                const data = await response.json();
-                
-                // Store session start time on first check
-                if (sessionStartTimeRef.current === null) {
-                    sessionStartTimeRef.current = new Date();
-                    console.log('Session started at:', sessionStartTimeRef.current);
-                    return;
-                }
-                
-                // Check if any jobs were created after session started
-                const recentJobs = data.jobs?.filter((job: any) => {
-                    const jobCreatedAt = new Date(job.created_at);
-                    return jobCreatedAt > sessionStartTimeRef.current!;
-                });
-                
-                if (recentJobs && recentJobs.length > 0) {
-                    console.log(`Found ${recentJobs.length} job(s) created during this session`);
-                    setHasJobData(true);
-                }
-            } catch (error) {
-                console.error('Error checking job data:', error);
+    const checkJobData = async () => {
+        try {
+            const response = await fetch('/api/jobs');
+            const data = await response.json();
+            const currentJobCount = data.jobs?.length || 0;
+            
+            if (initialJobCountRef.current === null) {
+                initialJobCountRef.current = currentJobCount;
+                console.log('Initial job count:', currentJobCount);
+                console.log('Jobs fetched:', data.jobs);
+                return;
             }
-        };
-
-        if (isStarted) {
-            // Check immediately when started
-            checkJobData();
-            // Poll every 2 seconds to check for new jobs
-            const interval = setInterval(checkJobData, 2000);
-            return () => clearInterval(interval);
+            
+            console.log(`Checking jobs: current=${currentJobCount}, initial=${initialJobCountRef.current}`);
+            
+            if (currentJobCount > initialJobCountRef.current) {
+                console.log(`✅ New job detected! Count increased from ${initialJobCountRef.current} to ${currentJobCount}`);
+                setHasJobData(true);
+                // Update the count but DON'T auto-pause or show modal
+                initialJobCountRef.current = currentJobCount;
+            }
+        } catch (error) {
+            console.error('Error checking job data:', error);
         }
-    }, [isStarted]);
+    };
+
+    if (isStarted && !isPaused) {
+        // Check immediately
+        checkJobData();
+        // Poll every 5 seconds (increased from 3 to give extraction more time)
+        const interval = setInterval(checkJobData, 5000);
+        return () => clearInterval(interval);
+    }
+}, [isStarted, isPaused]);
 
     const connectToAgent = useCallback(() => {
         const wsUrl = process.env.NEXT_PUBLIC_WS_URL || 'ws://localhost:8080';
@@ -267,7 +330,7 @@ const ChatInterface = forwardRef<ChatInterfaceRef, ChatInterfaceProps>(({
         });
 
         wsRef.current.on('text', (message) => {
-            if (message.data) {
+            if (message.data && !isPaused) {
                 // Failsafe: if we receive text, we are connected
                 setConnectionStatus('connected');
                 setIsConnected(true);
@@ -303,7 +366,7 @@ const ChatInterface = forwardRef<ChatInterfaceRef, ChatInterfaceProps>(({
         });
 
         wsRef.current.on('user_transcript', (message) => {
-            if (message.data) {
+            if (message.data && !isPaused) {
                 // Failsafe: if we receive user transcript, we are connected
                 setConnectionStatus('connected');
                 setIsConnected(true);
@@ -340,7 +403,7 @@ const ChatInterface = forwardRef<ChatInterfaceRef, ChatInterfaceProps>(({
         });
 
         wsRef.current.on('audio', (message) => {
-            if (message.data) {
+            if (message.data && !isPaused) {
                 // Failsafe: if we receive audio, we are connected
                 setConnectionStatus('connected');
                 setIsConnected(true);
@@ -394,7 +457,7 @@ const ChatInterface = forwardRef<ChatInterfaceRef, ChatInterfaceProps>(({
                     onErrorRef.current('Failed to connect to voice agent');
                 }
             });
-    }, [playNextAudioChunk]);
+    }, [playNextAudioChunk, isPaused]);
 
     const handleStart = () => {
         try {
@@ -430,7 +493,7 @@ const ChatInterface = forwardRef<ChatInterfaceRef, ChatInterfaceProps>(({
         const handleUserInteraction = () => {
             if (audioContextRef.current && audioContextRef.current.state === 'suspended') {
                 audioContextRef.current.resume().then(() => {
-                    if (audioPlayQueueRef.current.length > 0 && !isPlayingRef.current) {
+                    if (audioPlayQueueRef.current.length > 0 && !isPlayingRef.current && !isPaused) {
                         playNextAudioChunk();
                     }
                 });
@@ -441,9 +504,11 @@ const ChatInterface = forwardRef<ChatInterfaceRef, ChatInterfaceProps>(({
         return () => {
             window.removeEventListener('click', handleUserInteraction);
         };
-    }, [playNextAudioChunk]);
+    }, [playNextAudioChunk, isPaused]);
 
     const startRecording = async () => {
+        if(isPaused) return;
+
         initAudioContext();
 
         if (!recorderRef.current || !wsRef.current) {
@@ -461,7 +526,7 @@ const ChatInterface = forwardRef<ChatInterfaceRef, ChatInterfaceProps>(({
 
             sendIntervalRef.current = setInterval(() => {
                 // Check if socket is actually open before sending
-                if (wsRef.current && wsRef.current.isConnected() && audioQueueRef.current.length > 0) {
+                if (wsRef.current && wsRef.current.isConnected() && audioQueueRef.current.length > 0 && !isPaused) {
                     const chunk = audioQueueRef.current.shift();
                     if (chunk) {
                         wsRef.current.sendAudio(chunk);
@@ -493,6 +558,8 @@ const ChatInterface = forwardRef<ChatInterfaceRef, ChatInterfaceProps>(({
     };
 
     const toggleRecording = () => {
+        if (isPaused) return;
+
         if (isRecording) {
             stopRecording();
         } else {
@@ -502,7 +569,7 @@ const ChatInterface = forwardRef<ChatInterfaceRef, ChatInterfaceProps>(({
 
     const handleSendMessage = (e: React.FormEvent) => {
         e.preventDefault();
-        if (!inputText.trim() || !wsRef.current || !isConnected) return;
+        if (!inputText.trim() || !wsRef.current || !isConnected || isPaused) return;
 
         // Add user message to UI immediately
         setMessages(prev => [...prev, {
@@ -522,11 +589,17 @@ const ChatInterface = forwardRef<ChatInterfaceRef, ChatInterfaceProps>(({
     };
 
     const getStatusColor = () => {
+        if (isPaused) return 'bg-yellow-500';
         switch (connectionStatus) {
             case 'connected': return 'bg-green-500';
             case 'connecting': return 'bg-yellow-500';
             default: return 'bg-red-500';
         }
+    };
+
+    const getStatusText = () => {
+        if (isPaused) return 'paused';
+        return connectionStatus;
     };
 
     return (
@@ -536,22 +609,36 @@ const ChatInterface = forwardRef<ChatInterfaceRef, ChatInterfaceProps>(({
                 <h2 className="text-white font-semibold text-lg">Agent Chat</h2>
                 <div className="flex items-center space-x-3"> {/* ← CHANGED: space-x-2 to space-x-3 */}
                     <div className="flex items-center space-x-2 bg-white/10 px-3 py-1 rounded-full backdrop-blur-sm">
-                        <div className={`w-2 h-2 rounded-full ${getStatusColor()} animate-pulse`}></div>
-                        <span className="text-xs text-white/90 capitalize font-medium">{connectionStatus}</span>
-                    </div>
-                    {/* Skip Button Added */}
-                    {hasJobData && (
-                        <button
-                            onClick={handleSkip}
-                            className="bg-white/20 hover:bg-white/30 text-white px-4 py-2 rounded-lg text-sm font-medium transition-all flex items-center space-x-2 backdrop-blur-sm"
-                            title="Skip to Job Board"
-                        >
-                            <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 7l5 5m0 0l-5 5m5-5H6" />
-                            </svg>
-                            <span>View Jobs</span>
-                        </button>
-                    )}
+                    <div className={`w-2 h-2 rounded-full ${getStatusColor()} animate-pulse`}></div>
+                    <span className="text-xs text-white/90 capitalize font-medium">{getStatusText()}</span>
+                </div>
+                {isPaused && (
+                    <button
+                        onClick={resumeConversation}
+                        className="bg-green-500 hover:bg-green-600 text-white px-4 py-2 rounded-lg text-sm font-medium transition-all flex items-center space-x-2 shadow-lg animate-pulse"
+                        title="Resume Conversation"
+                    >
+                        <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M14.752 11.168l-3.197-2.132A1 1 0 0010 9.87v4.263a1 1 0 001.555.832l3.197-2.132a1 1 0 000-1.664z" />
+                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                        </svg>
+                        <span>Resume</span>
+                    </button>
+                )}
+
+                {hasJobData && !showJsonPreview && (
+                    <button
+                        onClick={handlePauseAndView}
+                        className="bg-white/20 hover:bg-white/30 text-white px-4 py-2 rounded-lg text-sm font-medium transition-all flex items-center space-x-2 backdrop-blur-sm animate-pulse"
+                        title="Pause & View Extracted Job"
+                    >
+                        <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
+                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" />
+                        </svg>
+                        <span>View Job</span>
+                    </button>
+                )}
                 </div>
             </div>
 
@@ -573,6 +660,90 @@ const ChatInterface = forwardRef<ChatInterfaceRef, ChatInterfaceProps>(({
                             >
                                 Start Assessment
                             </button>
+                        </div>
+                    </div>
+                )}
+                {/* JSON Preview Overlay */}
+                {showJsonPreview && extractedJobJson && (
+                    <div className="absolute inset-0 bg-black/50 backdrop-blur-sm z-20 flex items-center justify-center p-4">
+                        <div className="bg-white rounded-2xl shadow-2xl w-full max-w-3xl max-h-[90%] flex flex-col">
+                            {/* Preview Header */}
+                            <div className="bg-gradient-to-r from-green-600 to-emerald-600 p-4 flex-shrink-0">
+                                <div className="flex items-center space-x-3">
+                                    <div className="w-10 h-10 bg-white/20 rounded-full flex items-center justify-center">
+                                        <svg className="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
+                                        </svg>
+                                    </div>
+                                    <div>
+                                        <h2 className="text-xl font-bold text-white">Job Extracted!</h2>
+                                        <p className="text-green-100 text-sm">Review the structured data below</p>
+                                    </div>
+                                </div>
+                            </div>
+
+                            {/* JSON Content - scrollable */}
+                            <div className="flex-1 overflow-y-auto p-6 bg-gray-900">
+                                <pre className="text-green-400 font-mono text-sm leading-relaxed">
+                                    <code>{JSON.stringify(extractedJobJson, null, 2)}</code>
+                                </pre>
+                            </div>
+
+                            {/* Action Buttons */}
+                            <div className="p-4 bg-gray-50 border-t border-gray-200">
+                                {/* Main action buttons */}
+                                <div className="flex gap-3 mb-3">
+                                    <button
+                                        onClick={() => {
+                                            setShowJsonPreview(false);
+                                            setHasJobData(false);
+                                            resumeConversation();
+                                        }}
+                                        className="flex-1 py-3 px-4 bg-blue-600 hover:bg-blue-700 text-white font-semibold rounded-xl transition-all shadow-lg hover:shadow-xl flex items-center justify-center space-x-2"
+                                    >
+                                        <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M14.752 11.168l-3.197-2.132A1 1 0 0010 9.87v4.263a1 1 0 001.555.832l3.197-2.132a1 1 0 000-1.664z" />
+                                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                                        </svg>
+                                        <span>Resume</span>
+                                    </button>
+                                    <button
+                                        onClick={() => {
+                                            setShowJsonPreview(false);
+                                            router.push('/jobs');
+                                        }}
+                                        className="flex-1 py-3 px-4 bg-gradient-to-r from-green-600 to-emerald-600 hover:from-green-700 hover:to-emerald-700 text-white font-semibold rounded-xl transition-all shadow-lg hover:shadow-xl flex items-center justify-center space-x-2"
+                                    >
+                                        <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2" />
+                                        </svg>
+                                        <span>Job Board</span>
+                                    </button>
+                                </div>
+                                
+                                {/* View in new tab link */}
+                                <button
+                                    onClick={() => {
+                                        // Try different possible ID field names
+                                        const jobId = extractedJobJson?.id || extractedJobJson?._id || extractedJobJson?.job_id;
+                                        
+                                        console.log('Attempting to open job with ID:', jobId);
+                                        console.log('Full job data:', extractedJobJson);
+                                        
+                                        if (jobId) {
+                                            window.open(`/jobs/${jobId}`, '_blank');
+                                        } else {
+                                            alert('Job ID not found. Check console for details.');
+                                        }
+                                    }}
+                                    className="w-full py-2 text-center text-blue-600 hover:text-blue-700 hover:bg-blue-50 rounded-lg text-sm font-medium transition-all flex items-center justify-center space-x-2"
+                                >
+                                    <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
+                                    </svg>
+                                    <span>View full details in new tab</span>
+                                </button>
+                            </div>
                         </div>
                     </div>
                 )}
@@ -641,15 +812,15 @@ const ChatInterface = forwardRef<ChatInterfaceRef, ChatInterfaceProps>(({
                 <div className="flex items-center space-x-3">
                     <button
                         onClick={toggleRecording}
-                        disabled={!isStarted}
+                        disabled={!isStarted || isPaused}
                         className={`
-              p-3 rounded-full transition-all duration-300 transform hover:scale-105 flex-shrink-0
-              ${isRecording
+                            p-3 rounded-full transition-all duration-300 transform hover:scale-105 flex-shrink-0
+                            ${isRecording
                                 ? 'bg-red-500 text-white shadow-lg shadow-red-500/30 ring-4 ring-red-100'
                                 : 'bg-gray-100 text-gray-600 hover:bg-gray-200'
                             }
-              ${!isStarted ? 'opacity-50 cursor-not-allowed' : 'cursor-pointer'}
-            `}
+                            ${!isStarted || isPaused ? 'opacity-50 cursor-not-allowed' : 'cursor-pointer'}
+                        `}
                     >
                         {isRecording ? (
                             <div className="w-5 h-5 bg-white rounded-sm animate-pulse" />
@@ -662,8 +833,8 @@ const ChatInterface = forwardRef<ChatInterfaceRef, ChatInterfaceProps>(({
 
                     <button
                         onClick={handleImageUpload}
-                        disabled={!isConnected}
-                        className={`p-3 rounded-full bg-gray-100 text-gray-600 hover:bg-gray-200 transition-colors flex-shrink-0 ${!isConnected ? 'opacity-50 cursor-not-allowed' : ''}`}
+                        disabled={!isConnected || isPaused}
+                        className={`p-3 rounded-full bg-gray-100 text-gray-600 hover:bg-gray-200 transition-colors flex-shrink-0 ${!isConnected || isPaused ? 'opacity-50 cursor-not-allowed' : ''}`}
                         title="Upload Image"
                     >
                         <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -673,8 +844,8 @@ const ChatInterface = forwardRef<ChatInterfaceRef, ChatInterfaceProps>(({
 
                     <button
                         onClick={handleVideoUpload}
-                        disabled={!isConnected}
-                        className={`p-3 rounded-full bg-gray-100 text-gray-600 hover:bg-gray-200 transition-colors flex-shrink-0 ${!isConnected ? 'opacity-50 cursor-not-allowed' : ''}`}
+                        disabled={!isConnected || isPaused}
+                        className={`p-3 rounded-full bg-gray-100 text-gray-600 hover:bg-gray-200 transition-colors flex-shrink-0 ${!isConnected || isPaused ? 'opacity-50 cursor-not-allowed' : ''}`}
                         title="Upload Video"
                     >
                         <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -687,13 +858,13 @@ const ChatInterface = forwardRef<ChatInterfaceRef, ChatInterfaceProps>(({
                             type="text"
                             value={inputText}
                             onChange={(e) => setInputText(e.target.value)}
-                            placeholder="Type a message..."
-                            disabled={!isConnected}
+                            placeholder={isPaused ? "Conversation paused..." : "Type a message..."}
+                            disabled={!isConnected || isPaused}
                             className="flex-1 px-4 py-3 bg-gray-100 rounded-full border-none focus:ring-2 focus:ring-blue-500/50 focus:bg-white transition-all outline-none text-sm text-gray-700 placeholder-gray-400"
                         />
                         <button
                             type="submit"
-                            disabled={!inputText.trim() || !isConnected}
+                            disabled={!inputText.trim() || !isConnected || isPaused}
                             className="p-3 bg-blue-600 text-white rounded-full hover:bg-blue-700 disabled:opacity-50 disabled:cursor-not-allowed transition-colors shadow-lg shadow-blue-500/30"
                         >
                             <svg className="w-5 h-5 transform rotate-90" fill="none" stroke="currentColor" viewBox="0 0 24 24">
