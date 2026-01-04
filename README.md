@@ -9,6 +9,7 @@ adk-voice-agent/
 ├── server/                  # Python backend server
 │   ├── streaming_service.py
 │   ├── core_utils.py
+│   ├── schema.py
 │   ├── requirements.txt
 │   └── README.md
 ├── app/                     # Next.js App Router
@@ -17,6 +18,8 @@ adk-voice-agent/
 │   └── globals.css
 ├── components/              # React components
 │   ├── VoiceInterface.tsx
+│   ├── JobBoard.tsx
+│   ├── ChatInterface.tsx
 │   └── NotesDisplay.tsx
 ├── lib/                     # Utility libraries
 │   ├── websocket-client.ts
