@@ -34,6 +34,9 @@ The component uses several state variables:
 - `isAgentSpeaking`: Boolean indicating if the agent is currently speaking.
 - `hasJobData`: Boolean indicating if jobs have been created during the current session.
 - `isStarted`: Boolean indicating if the assessment has been started.
+- `showJsonPreview`: Boolean controlling the display of the job preview modal.
+- `extractedJobJson`: Object containing the extracted job data for preview.
+- `isPaused`: Boolean indicating if the conversation is currently paused.
 
 ### Refs
 
@@ -55,10 +58,16 @@ Various refs are used for managing DOM elements, audio context, WebSocket, recor
 
 ### Audio Handling
 
-- [`playNextAudioChunk`](components/ChatInterface.tsx:157): Processes and plays queued audio data using Web Audio API.
-- [`startRecording`](components/ChatInterface.tsx:400): Starts audio recording and sets up interval for sending audio chunks.
-- [`stopRecording`](components/ChatInterface.tsx:433): Stops recording and clears intervals.
-- [`toggleRecording`](components/ChatInterface.tsx:449): Toggles recording on/off.
+- [`playNextAudioChunk`](components/ChatInterface.tsx:230): Processes and plays queued audio data using Web Audio API.
+- [`startRecording`](components/ChatInterface.tsx:511): Starts audio recording and sets up interval for sending audio chunks.
+- [`stopRecording`](components/ChatInterface.tsx:546): Stops recording and clears intervals.
+- [`toggleRecording`](components/ChatInterface.tsx:562): Toggles recording on/off.
+
+### Pause and Resume Functionality
+
+- [`pauseConversation`](components/ChatInterface.tsx:65): Pauses the conversation by stopping recording, clearing audio queues, and setting paused state.
+- [`resumeConversation`](components/ChatInterface.tsx:81): Resumes the conversation by restarting recording if it was active before pause.
+- [`handlePauseAndView`](components/ChatInterface.tsx:91): Pauses conversation and fetches the most recent job for preview.
 
 ### Message Handling
 
@@ -77,9 +86,11 @@ Various refs are used for managing DOM elements, audio context, WebSocket, recor
 
 ### Job Data Management
 
-- [`handleSkip`](components/ChatInterface.tsx:59): Navigates to the job board page when job data is available.
-- **Job Data Polling**: useEffect hook that polls `/api/jobs` endpoint every 2 seconds to check for newly created jobs during the session.
+- [`handleGoToJobBoard`](components/ChatInterface.tsx:122): Navigates to the job board page.
+- [`handlePauseAndView`](components/ChatInterface.tsx:91): Pauses conversation and fetches the most recent job for preview in a modal.
+- **Job Data Polling**: useEffect hook that polls `/api/jobs` endpoint every 5 seconds to check for newly created jobs during the session.
 - **Session Tracking**: Tracks session start time and filters jobs created after session initialization.
+- **Job Preview Modal**: Displays extracted job details in a modal overlay when paused, allowing users to resume conversation or navigate to job board.
 
 ### UI and Effects
 
@@ -90,10 +101,11 @@ Various refs are used for managing DOM elements, audio context, WebSocket, recor
 
 The component renders a chat interface with:
 
-- **Header**: Displays title, connection status indicator, and conditional "View Jobs" button when job data is detected.
-- **Messages Area**: Shows chat messages, with conditional rendering for enhanced start screen and speaking indicator.
-- **Input Area**: Includes buttons for recording, image/video upload, and text input form.
+- **Header**: Displays title, connection status indicator, resume button when paused, "View Job" button when job data is detected, and logout button.
+- **Messages Area**: Shows chat messages, with conditional rendering for enhanced start screen, speaking indicator, and job preview modal overlay.
+- **Input Area**: Includes buttons for recording, image/video upload, and text input form, disabled when paused.
 - **Start Screen**: Enhanced welcome screen with "Start Assessment" button that initializes the session and begins job data tracking.
+- **Job Preview Modal**: Full-screen overlay displaying extracted job details with options to resume conversation or navigate to job board.
 
 ## Dependencies
 
@@ -104,9 +116,12 @@ The component renders a chat interface with:
 ## Notes
 
 - The component handles audio fragmentation and deduplication for messages.
-- Video uploads are limited to 50MB.
+- Video uploads are limited to 50MB (with error message showing 25MB due to base64 encoding overhead).
 - Audio is processed at 24kHz sample rate.
 - The component is forward-ref enabled for external control.
-- Job data polling occurs every 2 seconds when the assessment is started.
+- Job data polling occurs every 5 seconds when the assessment is started (increased from 2 seconds for better performance).
 - Session start time is tracked to filter jobs created during the current session.
-- The "View Jobs" button appears when new jobs are detected, allowing users to navigate to the job board.
+- Pause/Resume functionality allows users to temporarily halt conversation for job review.
+- Job preview modal provides immediate feedback on extracted job data without leaving the chat.
+- Logout functionality integrates with Supabase authentication.
+- Conversation state is preserved during pause, including recording status and audio queues.

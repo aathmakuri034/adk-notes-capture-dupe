@@ -216,7 +216,7 @@ Initializes the extractor with:
 
 ### 3. JobSummaryTracker Class
 
-Integration layer that connects the extraction system with note-taking workflows.
+Integration layer that connects the extraction system with note-taking workflows and cloud storage.
 
 #### `__init__()`
 
@@ -224,19 +224,23 @@ Initializes tracker with:
 
 - JobExtractor instance
 - Dictionary to track pending extraction tasks
+- Azure Blob Storage client for cloud backup of job schemas
 
 #### `extract_and_save_from_note(session_id: str, title: str, description: str, details: List[str], user_id: str = 'anon') -> Optional[str]`
 
-**Purpose**: Primary integration method called when notes are saved.
+**Purpose**: Primary integration method called when notes are saved, with automatic cloud backup.
 
 **Process**:
 
 1. Combines note components (title, description, details) into job text
 2. Extracts structured data using JobExtractor
 3. Saves to individual JSON file
-4. Returns filepath on success, None on failure
+4. Uploads job schema to Azure Blob Storage for backup and sharing
+5. Returns filepath on success, None on failure
 
 **Input Format**: Expects data from `save_note_tool` triggers.
+
+**Cloud Storage**: Automatically uploads extracted job schemas to Azure Blob Storage with session-specific naming for distributed access.
 
 ## Configuration
 
@@ -272,6 +276,13 @@ Output configuration:
 - Two-phase extraction: category identification + detailed extraction
 - Asynchronous processing for non-blocking operations
 - Category-specific prompt engineering for consistent results
+
+### With Azure Blob Storage
+
+- Automatic backup of extracted job schemas to cloud storage
+- Session-based file naming for organized storage
+- Error handling for storage failures without affecting local processing
+- Enables distributed access to job data across multiple systems
 
 ## Error Handling
 
@@ -345,6 +356,7 @@ Jobs are saved as individual JSON files with the following structure:
 - `datetime`: Timestamp generation
 - `hashlib`: ID generation
 - `logging`: Structured logging
+- `blob_storage.py`: Azure Blob Storage integration
 - `schema.py`: Job schema definitions
 - `subjob_schema.py`: Detailed subjob schema definitions
 
