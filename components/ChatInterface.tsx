@@ -4,6 +4,8 @@ import { useState, useEffect, useRef, forwardRef, useImperativeHandle, useCallba
 import { VoiceAgentWebSocket } from '@/lib/websocket-client';
 import { useRouter } from 'next/navigation';
 import { AudioRecorder } from '@/lib/audio-recorder';
+import { supabaseClient } from "@/lib/supabaseClient";
+
 
 interface Message {
     id: string;
@@ -283,40 +285,40 @@ const ChatInterface = forwardRef<ChatInterfaceRef, ChatInterfaceProps>(({
 
     // Poll for new jobs but DON'T auto-pause
     useEffect(() => {
-    const checkJobData = async () => {
-        try {
-            const response = await fetch('/api/jobs');
-            const data = await response.json();
-            const currentJobCount = data.jobs?.length || 0;
-            
-            if (initialJobCountRef.current === null) {
-                initialJobCountRef.current = currentJobCount;
-                console.log('Initial job count:', currentJobCount);
-                console.log('Jobs fetched:', data.jobs);
-                return;
+        const checkJobData = async () => {
+            try {
+                const response = await fetch('/api/jobs');
+                const data = await response.json();
+                const currentJobCount = data.jobs?.length || 0;
+                
+                if (initialJobCountRef.current === null) {
+                    initialJobCountRef.current = currentJobCount;
+                    console.log('Initial job count:', currentJobCount);
+                    console.log('Jobs fetched:', data.jobs);
+                    return;
+                }
+                
+                console.log(`Checking jobs: current=${currentJobCount}, initial=${initialJobCountRef.current}`);
+                
+                if (currentJobCount > initialJobCountRef.current) {
+                    console.log(`✅ New job detected! Count increased from ${initialJobCountRef.current} to ${currentJobCount}`);
+                    setHasJobData(true);
+                    // Update the count but DON'T auto-pause or show modal
+                    initialJobCountRef.current = currentJobCount;
+                }
+            } catch (error) {
+                console.error('Error checking job data:', error);
             }
-            
-            console.log(`Checking jobs: current=${currentJobCount}, initial=${initialJobCountRef.current}`);
-            
-            if (currentJobCount > initialJobCountRef.current) {
-                console.log(`✅ New job detected! Count increased from ${initialJobCountRef.current} to ${currentJobCount}`);
-                setHasJobData(true);
-                // Update the count but DON'T auto-pause or show modal
-                initialJobCountRef.current = currentJobCount;
-            }
-        } catch (error) {
-            console.error('Error checking job data:', error);
-        }
-    };
+        };
 
-    if (isStarted && !isPaused) {
-        // Check immediately
-        checkJobData();
-        // Poll every 5 seconds (increased from 3 to give extraction more time)
-        const interval = setInterval(checkJobData, 5000);
-        return () => clearInterval(interval);
-    }
-}, [isStarted, isPaused]);
+        if (isStarted && !isPaused) {
+            // Check immediately
+            checkJobData();
+            // Poll every 5 seconds (increased from 3 to give extraction more time)
+            const interval = setInterval(checkJobData, 5000);
+            return () => clearInterval(interval);
+        }
+    }, [isStarted, isPaused]);
 
     const connectToAgent = useCallback(() => {
         const wsUrl = process.env.NEXT_PUBLIC_WS_URL || 'ws://localhost:8080';
@@ -639,6 +641,18 @@ const ChatInterface = forwardRef<ChatInterfaceRef, ChatInterfaceProps>(({
                         <span>View Job</span>
                     </button>
                 )}
+                {/* LOGOUT BUTTON */}
+                <button
+                    onClick={async () => {
+                        await supabaseClient.auth.signOut();
+                        window.location.href = "/login";
+                    }}
+                    className="ml-4 bg-red-500 hover:bg-red-600 text-white px-3 py-1.5 rounded-lg text-sm font-medium transition-all shadow-md"
+                >
+                    Logout
+                </button>
+
+
                 </div>
             </div>
 
@@ -666,27 +680,40 @@ const ChatInterface = forwardRef<ChatInterfaceRef, ChatInterfaceProps>(({
                 {/* JSON Preview Overlay */}
                 {showJsonPreview && extractedJobJson && (
                     <div className="absolute inset-0 bg-black/50 backdrop-blur-sm z-20 flex items-center justify-center p-4">
-                        <div className="bg-white rounded-2xl shadow-2xl w-full max-w-3xl max-h-[90%] flex flex-col">
+                        <div className="bg-white rounded-2xl shadow-2xl w-full max-w-3xl max-h-[90%] overflow-hidden flex flex-col">
                             {/* Preview Header */}
-                            <div className="bg-gradient-to-r from-green-600 to-emerald-600 p-4 flex-shrink-0">
+                            <div className="bg-gradient-to-r from-green-600 to-emerald-600 p-6 flex-shrink-0">
                                 <div className="flex items-center space-x-3">
-                                    <div className="w-10 h-10 bg-white/20 rounded-full flex items-center justify-center">
-                                        <svg className="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <div className="w-12 h-12 bg-white/20 rounded-full flex items-center justify-center">
+                                        <svg className="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
                                         </svg>
                                     </div>
                                     <div>
-                                        <h2 className="text-xl font-bold text-white">Job Extracted!</h2>
-                                        <p className="text-green-100 text-sm">Review the structured data below</p>
+                                        <h2 className="text-2xl font-bold text-white">Job Extracted!</h2>
+                                        <p className="text-green-100 text-sm">Review the details below</p>
                                     </div>
                                 </div>
                             </div>
 
-                            {/* JSON Content - scrollable */}
-                            <div className="flex-1 overflow-y-auto p-6 bg-gray-900">
-                                <pre className="text-green-400 font-mono text-sm leading-relaxed">
-                                    <code>{JSON.stringify(extractedJobJson, null, 2)}</code>
-                                </pre>
+                            {/* Job Summary Card - scrollable content */}
+                            <div className="flex-1 overflow-y-auto p-6 bg-gradient-to-br from-blue-50 to-purple-50">
+                                <h3 className="text-2xl font-bold text-gray-900 mb-3">{extractedJobJson.title}</h3>
+                                <p className="text-gray-700 mb-6 leading-relaxed">{extractedJobJson.description}</p>
+                                <div className="grid grid-cols-3 gap-4">
+                                    <div className="bg-white rounded-lg p-4 shadow-sm">
+                                        <div className="text-xs text-gray-500 mb-1 font-medium">Category</div>
+                                        <div className="font-semibold text-gray-900 capitalize">{extractedJobJson.category}</div>
+                                    </div>
+                                    <div className="bg-white rounded-lg p-4 shadow-sm">
+                                        <div className="text-xs text-gray-500 mb-1 font-medium">Urgency</div>
+                                        <div className="font-semibold text-gray-900 capitalize">{extractedJobJson.urgency}</div>
+                                    </div>
+                                    <div className="bg-white rounded-lg p-4 shadow-sm">
+                                        <div className="text-xs text-gray-500 mb-1 font-medium">Complexity</div>
+                                        <div className="font-semibold text-gray-900 capitalize">{extractedJobJson.complexity}</div>
+                                    </div>
+                                </div>
                             </div>
 
                             {/* Action Buttons */}

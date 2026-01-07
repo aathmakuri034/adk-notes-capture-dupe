@@ -68,12 +68,15 @@ from subjob_schema import (
     DetailedJob
 )
 
+# Azure Blob Storage
+from blob_storage import AzureBlobStorage
+
 # Set up logging
 logger = logging.getLogger(__name__)
 
 # Configuration
 OUTPUT_DIR = "conversation_data"
-MODEL = os.getenv("MODEL", "gemini-2.5-flash")
+MODEL = os.getenv("EXTRACTION_MODEL", "gemini-2.5-flash")
 PROJECT_ID = os.getenv("PROJECT_ID")
 LOCATION = os.getenv("LOCATION")
 
@@ -896,6 +899,14 @@ class JobSummaryTracker:
     def __init__(self):
         self.extractor = JobExtractor()
         self.pending_extractions: Dict[str, asyncio.Task] = {}
+
+        # Initialize Azure Blob Storage
+        try:
+            self.blob_storage = AzureBlobStorage()
+            logger.info(f"Azure Blob Storage initialized successfully: {self.blob_storage.container_name}")
+        except Exception as e:
+            logger.error(f"Failed to initialize Azure Blob Storage: {e}")
+            self.blob_storage = None
     
     async def extract_and_save_from_note(
         self,
@@ -946,6 +957,22 @@ class JobSummaryTracker:
             
             if filepath:
                 logger.info(f"Sucessfully saved job to :{filepath}")
+
+                # Upload to Azure Blob Storage
+                if self.blob_storage:
+                    try:
+                        job_dict = job.model_dump(exclude_none = True)
+                        blob_path = self.blob_storage.upload_job_schema(
+                            job_data = job_dict,
+                            filename=f"{session_id}_{job.job_id}"
+                        )
+
+                        if blob_path:
+                            logger.info(f"Job Schema uploaded to Azure: {blob_path}")
+                        else:
+                            logger.warning("Failed to upload job schema to Azure")
+                    except Exception as e:
+                        logger.error(f"Error uploading job schema to Azure: {e}")
                 return filepath
             else:
                 logger.info("No new job files created (duplicates)")

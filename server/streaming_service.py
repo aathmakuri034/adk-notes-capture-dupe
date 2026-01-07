@@ -92,6 +92,10 @@ class StreamingService(BaseStreamServer):
 
 
     async def handle_stream(self, websocket, client_id):
+        # Buffers for transcript logging shared across tasks
+        self._input_texts = []
+        self._output_texts = []
+
         """Process real-time data streams from the client."""
         # Store client reference
         self.active_connections[client_id] = websocket
@@ -244,7 +248,21 @@ class StreamingService(BaseStreamServer):
 
                                     stream_logger.info(f"Saved image to {image_path}")
 
-
+                                    try:
+                                        if hasattr(self, 'conversation_tracker') and self.conversation_tracker:
+                                            blob_storage = self.conversation_tracker.blob_storage
+                                            if blob_storage:
+                                                azure_blob_path = blob_storage.upload_image(
+                                                    image_data=image_bytes,
+                                                    filename=image_filename
+                                                )
+                                                if azure_blob_path:
+                                                    stream_logger.info(f"Image uploaded to Azure: {azure_blob_path}")
+                                                else:
+                                                    stream_logger.warning("Failed to upload image to Azure")
+                                    except Exception as e:
+                                        stream_logger.error(f"Error uploading image to Azure: {e}")
+                                    
                                     # Send as a content message (better for static images)
                                     live_request_queue.send_content(
                                         types.Content(
@@ -304,6 +322,31 @@ class StreamingService(BaseStreamServer):
                                         gs_uri = f"gs://{bucket_name}/{blob_name}"
                                         stream_logger.info(f"File uploaded to GCS: {gs_uri}")
 
+                                        try:
+                                            if hasattr(self, 'conversation_tracker') and self.conversation_tracker:
+                                                blob_storage = self.conversation_tracker.blob_storage
+                                                if blob_storage:
+                                                    # Create filename for Azure
+                                                    video_filename = f"{session_id}_{uuid.uuid4().hex}.mp4"
+                                                    
+                                                    azure_blob_path = blob_storage.upload_video(
+                                                        video_data=video_bytes,
+                                                        filename=video_filename
+                                                    )
+                                                    
+                                                    if azure_blob_path:
+                                                        stream_logger.info(f"Video uploaded to Azure: {azure_blob_path}")
+                                                        
+                                                        # Add reference to transcript
+                                                        os.makedirs("transcripts", exist_ok=True)
+                                                        with open(f"transcripts/{session_id}.txt", "a", encoding="utf-8") as f:
+                                                            f.write(f"VIDEO UPLOADED: {video_filename}\n")
+                                                            f.write(f"GCS URI: {gs_uri}\n\n")
+                                                    else:
+                                                        stream_logger.warning("Failed to upload video to Azure")
+                                        except Exception as e:
+                                            stream_logger.error(f"Error uploading video to Azure: {e}")
+
                                         # Send as file reference + prompt
                                         live_request_queue.send_content(
                                             types.Content(
@@ -332,11 +375,20 @@ class StreamingService(BaseStreamServer):
                                 "Client has concluded data transmission for this turn.")
                         elif data.get("type") == "text":
                             text_content = data.get("data")
-                            stream_logger.info(
-                                f"Received text from client: {text_content}")
+                            stream_logger.info(f"Received text from client: {text_content}")
+
+                            # Send to agent
                             live_request_queue.send_content(
                                 types.Content(role="user", parts=[types.Part(text=text_content)])
                             )
+
+                            # NEW — Log typed user text into transcript buffer
+                            try:
+                                # Append to the transcript buffer used in receive_service_responses()
+                                self._input_texts.append(text_content)
+                            except Exception as e:
+                                stream_logger.warning(f"Could not append typed text to input_texts: {e}")
+
                         elif data.get("type") == "get_notes":
                             notes = database.get_notes()
                             await websocket.send(json.dumps({
@@ -424,8 +476,8 @@ class StreamingService(BaseStreamServer):
 
             async def receive_service_responses():
                 # Track user and model outputs between turn completion events
-                input_texts = []
-                output_texts = []
+                input_texts = self._input_texts
+                output_texts = self._output_texts
                 current_session_id = None
 
                 # Flag to track if we've seen an interruption in the current turn
@@ -568,10 +620,29 @@ class StreamingService(BaseStreamServer):
                                 f.write("\n--- TURN COMPLETE ---\n\n")
 
                             stream_logger.info(f"Turn logged to: {transcript_path}")
+
+                            # Upload complete transcript to Azure after each turn
+                            try:
+                                if hasattr(self, 'conversation_tracker') and self.conversation_tracker:
+                                    blob_storage = self.conversation_tracker.blob_storage
+                                    if blob_storage:
+                                        # Read complete transcript
+                                        with open(transcript_path, "r", encoding = "utf-8") as f:
+                                            full_transcript = f.read()
+                                        
+                                        blob_path = blob_storage.upload_transcript(
+                                            transcript_text=full_transcript,
+                                            filename = session_id
+                                        )
+
+                                        if blob_path:
+                                            stream_logger.info(f"Transcript uploaded to Azure: {blob_path}")
+                            except Exception as e:
+                                stream_logger.error(f"Error uploading transcript to Azure: {e}")
                             
                             # Reset for next turn
-                            input_texts = []
-                            output_texts = []
+                            self._input_texts.clear()
+                            self._output_texts.clear()
                             accumulated_response = ""
                             interrupted = False
                 except websockets.exceptions.ConnectionClosed:
