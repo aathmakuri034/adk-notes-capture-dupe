@@ -105,8 +105,10 @@ const JobBoard = () => {
     setTimeout(() => setJsonCopied(false), 2000);
   };
 
-  const getUrgencyColor = (urgency: string) => {
-    switch (urgency.toLowerCase()) {
+  const getUrgencyColor = (urgency?: string) => {
+    const u = urgency?.toLowerCase() || "unknown";
+
+    switch (u) {
       case 'emergency': return 'bg-red-100 text-red-800 border-red-200';
       case 'high': return 'bg-orange-100 text-orange-800 border-orange-200';
       case 'medium': return 'bg-yellow-100 text-yellow-800 border-yellow-200';
@@ -115,8 +117,10 @@ const JobBoard = () => {
     }
   };
 
-  const getComplexityColor = (complexity: string) => {
-    switch (complexity.toLowerCase()) {
+  const getComplexityColor = (complexity?: string) => {
+    const c = complexity?.toLowerCase() || "unknown";
+
+    switch (c) {
       case 'basic': return 'text-green-600';
       case 'intermediate': return 'text-yellow-600';
       case 'complex': return 'text-red-600';
