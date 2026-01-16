@@ -13,11 +13,7 @@ class AzureBlobStorage:
             raise ValueError("AZURE_STORAGE_CONNECTION_STRING not found in environment variables")
         
         # Use env variable if container_name not provided
-        self.container_name = container_name or os.getenv('AZURE_CONTAINER_NAME')
-
-        # Once Container has been created it should be something like. 
-        # self.container_name = container_name or os.getenv('AZURE_CONTAINER_NAME', 'container_name)
-        # This is so that if Azure Container name is not made, it falls back on default name
+        self.container_name = container_name or os.getenv('AZURE_CONTAINER_NAME', 'extracted-data')
 
         self.blob_service_client = BlobServiceClient.from_connection_string(connection_string)
 

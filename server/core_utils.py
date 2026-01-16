@@ -240,7 +240,7 @@ PLUMBING SUBJOBS
 • Burst Pipe → capture pipe location, pipe type, shutoff status, flooding extent  
 • Drain Cleaning → location, clog severity, recurring issues  
 • Water Heater → type, age, capacity, fuel, issue  
-• Fixture Replacement → fixture name, new fixture provided?, model, reason  
+• Fixture Replacement → fixture name, new fixture provided?, model, reason, age of plumbing  
 • Sewer Line → backup location, inspection need, access requirements  
 
 ELECTRICAL SUBJOBS

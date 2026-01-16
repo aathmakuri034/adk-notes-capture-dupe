@@ -1,0 +1,63 @@
+# Python
+__pycache__
+*.pyc
+*.pyo
+*.pyd
+.Python
+*.so
+
+# Virtual environments
+.venv
+venv
+env
+ENV
+
+# IDE
+.idea
+.vscode
+*.swp
+*.swo
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Git
+.git
+.gitignore
+
+# Docker
+Dockerfile
+.dockerignore
+
+# Environment files (secrets should be injected via env vars)
+.env
+.env.*
+*.env
+
+# SQLite database (will be created fresh or mounted as volume)
+*.db
+
+# Data directories (mounted as volumes)
+transcripts/
+voice_notes_data/
+
+# Logs
+*.log
+logs/
+
+# Testing
+tests/
+pytest.ini
+.pytest_cache
+.coverage
+htmlcov/
+
+# Documentation
+README.md
+*.md
+docs/
+
+# Credentials (should be mounted as volumes or secrets)
+*.json
+credentials/

@@ -1,7 +1,18 @@
 import { NextResponse } from "next/server";
-import fs from "fs";
-import path from "path";
+import { BlobServiceClient } from "@azure/storage-blob";
 import { createSupabaseServerClient } from "@/lib/supabaseServer";
+
+// Initialize Azure Blob Storage client
+function getBlobContainerClient() {
+  const connectionString = process.env.AZURE_STORAGE_CONNECTION_STRING;
+  if (!connectionString) {
+    throw new Error("AZURE_STORAGE_CONNECTION_STRING not configured");
+  }
+
+  const containerName = process.env.AZURE_CONTAINER_NAME || "extracted-data";
+  const blobServiceClient = BlobServiceClient.fromConnectionString(connectionString);
+  return blobServiceClient.getContainerClient(containerName);
+}
 
 export async function GET() {
   try {
@@ -13,25 +24,21 @@ export async function GET() {
       return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
     }
 
-    // READ JOB FILES
-    const dataDir = path.join(process.cwd(), "server", "conversation_data");
-
-    if (!fs.existsSync(dataDir)) {
-      return NextResponse.json({ jobs: [] });
-    }
-
-    const files = fs.readdirSync(dataDir);
+    // FETCH JOBS FROM AZURE BLOB STORAGE
+    const containerClient = getBlobContainerClient();
     const jobs: any[] = [];
 
-    for (const filename of files) {
-      if (filename.startsWith("job_") && filename.endsWith(".json")) {
-        const filepath = path.join(dataDir, filename);
-        const fileContent = fs.readFileSync(filepath, "utf-8");
-
+    // List all blobs in job-schemas/ directory
+    for await (const blob of containerClient.listBlobsFlat({ prefix: "job-schemas/" })) {
+      if (blob.name.endsWith(".json")) {
         try {
-          const jobData = JSON.parse(fileContent);
+          // Download and parse the blob
+          const blobClient = containerClient.getBlobClient(blob.name);
+          const downloadResponse = await blobClient.download();
+          const blobContent = await streamToString(downloadResponse.readableStreamBody);
+          const jobData = JSON.parse(blobContent);
 
-          // ⭐ NORMALIZE METADATA FOR FRONTEND
+          // NORMALIZE METADATA FOR FRONTEND
           const metadata = {
             estimated_duration_minutes:
               jobData.estimated_duration_minutes ??
@@ -84,7 +91,7 @@ export async function GET() {
             conversation_turns: 0,
           });
         } catch (e) {
-          console.error("Failed to parse file:", filename, e);
+          console.error("Failed to parse blob:", blob.name, e);
         }
       }
     }
@@ -98,7 +105,25 @@ export async function GET() {
 
     return NextResponse.json({ jobs });
   } catch (error) {
-    console.error("Error reading jobs:", error);
+    console.error("Error reading jobs from Azure Blob:", error);
     return NextResponse.json({ jobs: [] }, { status: 500 });
   }
+}
+
+// Helper function to convert readable stream to string
+async function streamToString(readableStream: NodeJS.ReadableStream | undefined): Promise<string> {
+  if (!readableStream) {
+    return "";
+  }
+
+  return new Promise((resolve, reject) => {
+    const chunks: Buffer[] = [];
+    readableStream.on("data", (data) => {
+      chunks.push(Buffer.isBuffer(data) ? data : Buffer.from(data));
+    });
+    readableStream.on("end", () => {
+      resolve(Buffer.concat(chunks).toString("utf-8"));
+    });
+    readableStream.on("error", reject);
+  });
 }

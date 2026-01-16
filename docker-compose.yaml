@@ -1,0 +1,106 @@
+services:
+  # Backend - Python/FastAPI WebSocket Server
+  backend:
+    image: adk-job-scope-backend:latest
+    build:
+      context: ./server
+      dockerfile: Dockerfile
+    container_name: adk-job-scope-backend
+    restart: unless-stopped
+    ports:
+      - "8080:8080"
+    env_file:
+      - ./server/.env
+    volumes:
+      # Mount entire server directory (SQLite + data)
+      - ./server:/data
+
+      # Other data directories (optional but kept explicit)
+      - ./server/transcripts:/app/transcripts
+      - ./server/voice_notes_data:/app/voice_notes_data
+      - ./server/conversation_data:/app/conversation_data
+
+      # Google Cloud credentials
+      - ~/.config/gcloud/application_default_credentials.json:/root/.config/gcloud/application_default_credentials.json:ro
+    environment:
+      - GOOGLE_APPLICATION_CREDENTIALS=/root/.config/gcloud/application_default_credentials.json
+    networks:
+      - adk-network
+    healthcheck:
+      test: ["CMD-SHELL", "pgrep -f 'python streaming_service.py' || exit 1"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 10s
+
+  # Notes Backend - Python/FastAPI WebSocket Server for Voice Notes
+  notes-backend:
+    image: adk-voice-notes-backend:latest
+    build:
+      context: ./server
+      dockerfile: Dockerfile
+    container_name: adk-voice-notes-backend
+    restart: unless-stopped
+    ports:
+      - "8081:8081"
+    env_file:
+      - ./server/.env
+    volumes:
+      # Mount entire server directory (SQLite + data)
+      - ./server:/data
+
+      # Voice notes directory
+      - ./server/voice_notes_data:/app/voice_notes_data
+
+      # Google Cloud credentials
+      - ~/.config/gcloud/application_default_credentials.json:/root/.config/gcloud/application_default_credentials.json:ro
+    environment:
+      - GOOGLE_APPLICATION_CREDENTIALS=/root/.config/gcloud/application_default_credentials.json
+    networks:
+      - adk-network
+    healthcheck:
+      test: ["CMD-SHELL", "pgrep -f 'python notes_streaming_service.py' || exit 1"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 10s
+    command: ["python", "notes_streaming_service.py"]
+
+  # Frontend - Next.js Application
+  frontend:
+    image: adk-notes-frontend:latest
+    build:
+      context: .
+      dockerfile: Dockerfile
+      args:
+        - NEXT_PUBLIC_SUPABASE_URL=${NEXT_PUBLIC_SUPABASE_URL}
+        - NEXT_PUBLIC_SUPABASE_ANON_KEY=${NEXT_PUBLIC_SUPABASE_ANON_KEY}
+    container_name: adk-notes-frontend
+    restart: unless-stopped
+    ports:
+      - "3000:3000"
+    env_file:
+      - .env.local
+    environment:
+      - NODE_ENV=production
+      # Internal Docker network WebSocket URL
+      - NEXT_PUBLIC_BACKEND_URL=ws://backend:8080
+    volumes:
+      - ./server/conversation_data:/app/server/conversation_data
+    depends_on:
+      backend:
+        condition: service_healthy
+      notes-backend:
+        condition: service_healthy
+    networks:
+      - adk-network
+    healthcheck:
+      test: ["CMD", "wget", "-q", "--spider", "http://localhost:3000"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 30s
+
+networks:
+  adk-network:
+    driver: bridge

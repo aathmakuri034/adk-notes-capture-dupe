@@ -306,11 +306,22 @@ class StreamingService(BaseStreamServer):
                                         # Use a predictable bucket name based on project
                                         bucket_name = f"{PROJECT_ID}-job-assistant-media"
                                         
+                                        from google.cloud.exceptions import NotFound, Forbidden
                                         try:
                                             bucket = storage_client.get_bucket(bucket_name)
+                                        except NotFound:
+                                            stream_logger.error(f"Bucket {bucket_name} does not exist")
+                                        except Forbidden as e:
+                                            stream_logger.error(f"Permission denied accessing bucket {bucket_name}: {e}")
+                                            raise Exception(f"No permission to access bucket GCS bucket {bucket_name}")
                                         except Exception:
                                             stream_logger.info(f"Bucket {bucket_name} not found, creating...")
                                             bucket = storage_client.create_bucket(bucket_name, location=LOCATION)
+                                            await websocket.send(json.dumps({
+                                                "type": "error",
+                                                "data": f"Storage bucket not configured. Please contact administrator."
+                                            }))
+                                            raise Exception(f"GCS bucket {bucket_name} does not exist and cannot be created. Please create it manually.")
                                         
                                         # Create unique filename
                                         blob_name = f"uploads/{uuid.uuid4()}.mp4"
