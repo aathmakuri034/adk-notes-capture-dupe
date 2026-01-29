@@ -19,14 +19,18 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
     && rm -rf /var/lib/apt/lists/*
 
 # Copy requirements first for better caching
-COPY requirements.txt .
+COPY server/requirements.txt .
 
 # Install Python dependencies
 RUN pip install --no-cache-dir --upgrade pip && \
     pip install --no-cache-dir -r requirements.txt
 
-# Copy application code
-COPY . .
+# Copy pyproject.toml and server code for package installation
+COPY pyproject.toml .
+COPY server/ ./server/
+
+# Install the package in editable mode
+RUN pip install --no-cache-dir -e .
 
 # Create directories for data persistence and empty database file
 RUN mkdir -p /app/transcripts /app/voice_notes_data && touch /app/notes.db
@@ -36,7 +40,7 @@ EXPOSE 8080
 
 # Health check - verify the streaming service process is running
 HEALTHCHECK --interval=30s --timeout=10s --start-period=5s --retries=3 \
-    CMD pgrep -f 'python streaming_service.py' || exit 1
+    CMD pgrep -f 'adk_notes_capture_agent.streaming_service' || exit 1
 
-# Run the streaming service
-CMD ["python", "streaming_service.py"]
+# Run the streaming service as a module
+CMD ["python", "-m", "adk_notes_capture_agent.streaming_service"]

@@ -1,0 +1,50 @@
+[build-system]
+requires = ["setuptools>=61.0", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "adk-notes-capture-agent"
+version = "0.1.0"
+description = "ADK Notes Capture Agent - Python server for note capture and processing"
+readme = "server/README.md"
+requires-python = ">=3.10"
+license = "LicenseRef-Proprietary"
+dependencies = [
+    "aiosqlite>=0.22.0",
+    "alembic>=1.17.2",
+    "anyio>=4.12.0",
+    "azure-core>=1.37.0",
+    "azure-identity>=1.25.1",
+    "azure-storage-blob>=12.27.1",
+    "fastapi>=0.123.10",
+    "google-adk>=1.21.0",
+    "google-cloud-aiplatform>=1.132.0",
+    "google-cloud-storage>=3.7.0",
+    "google-genai>=1.56.0",
+    "httpx>=0.28.1",
+    "pydantic>=2.12.5",
+    "pydantic-settings>=2.12.0",
+    "python-dotenv>=1.2.1",
+    "python-multipart>=0.0.21",
+    "PyYAML>=6.0.3",
+    "SQLAlchemy>=2.0.45",
+    "sse-starlette>=3.0.4",
+    "starlette>=0.50.0",
+    "uvicorn>=0.38.0",
+    "websockets>=15.0.1",
+]
+
+[project.optional-dependencies]
+dev = [
+    "pytest>=7.0.0",
+    "pytest-asyncio>=0.21.0",
+]
+
+[tool.setuptools]
+packages = ["adk_notes_capture_agent"]
+
+[tool.setuptools.package-dir]
+adk_notes_capture_agent = "server"
+
+[tool.setuptools.package-data]
+adk_notes_capture_agent = ["*.py"]

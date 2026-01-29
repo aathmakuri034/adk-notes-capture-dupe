@@ -38,8 +38,7 @@ Dockerfile*
 docker-compose*
 .dockerignore
 
-# Python (server directory handled separately)
-server/
+# Python
 __pycache__
 *.pyc
 *.pyo
@@ -49,6 +48,16 @@ __pycache__
 .venv
 venv
 env
+
+# Server - exclude only unnecessary files
+server/venv
+server/__pycache__
+server/*.db
+server/transcripts
+server/voice_notes_data
+server/conversation_data
+server/sample_data
+server/sample_transcripts
 
 # Misc
 *.log

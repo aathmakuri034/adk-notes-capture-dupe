@@ -3,8 +3,8 @@ services:
   backend:
     image: adk-job-scope-backend:latest
     build:
-      context: ./server
-      dockerfile: Dockerfile
+      context: .
+      dockerfile: server/Dockerfile
     container_name: adk-job-scope-backend
     restart: unless-stopped
     ports:
@@ -27,7 +27,7 @@ services:
     networks:
       - adk-network
     healthcheck:
-      test: ["CMD-SHELL", "pgrep -f 'python streaming_service.py' || exit 1"]
+      test: ["CMD-SHELL", "pgrep -f 'adk_notes_capture_agent.streaming_service' || exit 1"]
       interval: 30s
       timeout: 10s
       retries: 3
@@ -37,8 +37,8 @@ services:
   notes-backend:
     image: adk-voice-notes-backend:latest
     build:
-      context: ./server
-      dockerfile: Dockerfile
+      context: .
+      dockerfile: server/Dockerfile
     container_name: adk-voice-notes-backend
     restart: unless-stopped
     ports:
@@ -59,12 +59,12 @@ services:
     networks:
       - adk-network
     healthcheck:
-      test: ["CMD-SHELL", "pgrep -f 'python notes_streaming_service.py' || exit 1"]
+      test: ["CMD-SHELL", "pgrep -f 'adk_notes_capture_agent.notes_streaming_service' || exit 1"]
       interval: 30s
       timeout: 10s
       retries: 3
       start_period: 10s
-    command: ["python", "notes_streaming_service.py"]
+    command: ["python", "-m", "adk_notes_capture_agent.notes_streaming_service"]
 
   # Frontend - Next.js Application
   frontend:

@@ -1,21 +1,3 @@
-# Import core_utils - works when running from server directory
-import sys
-import os
-# Add current directory to path to allow direct imports
-sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
-
-from conversation_pipeline import JobSummaryTracker
-
-from core_utils import (
-    GOOGLE_API_KEY,
-    BaseStreamServer,
-    stream_logger,
-    MODEL,
-    VOICE_NAME,
-    SEND_SAMPLE_RATE,
-    SYSTEM_INSTRUCTION,
-    validate_env_vars
-)
 import asyncio
 import json
 import base64
@@ -25,9 +7,19 @@ import traceback
 import uuid
 import websockets
 
-# Set Google Cloud environment variables to ensure libraries use the correct project and location
-# This must be done before importing/initializing Google Cloud components
-from core_utils import PROJECT_ID, LOCATION
+from .conversation_pipeline import JobSummaryTracker
+from .core_utils import (
+    GOOGLE_API_KEY,
+    BaseStreamServer,
+    stream_logger,
+    MODEL,
+    VOICE_NAME,
+    SEND_SAMPLE_RATE,
+    SYSTEM_INSTRUCTION,
+    validate_env_vars,
+    PROJECT_ID,
+    LOCATION,
+)
 if PROJECT_ID:
     os.environ["GOOGLE_CLOUD_PROJECT"] = PROJECT_ID
 if LOCATION:
@@ -43,7 +35,7 @@ from google.adk.errors.already_exists_error import AlreadyExistsError
 from google.genai import types
 from dotenv import load_dotenv
 from google.adk.tools import google_search
-import database
+from . import database
 
 load_dotenv()
 

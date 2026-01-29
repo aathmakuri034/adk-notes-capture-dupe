@@ -2,11 +2,10 @@
 Voice Notes Capture Service - FINAL PRODUCTION VERSION (Correct Turn Boundaries + Summaries)
 """
 
-import sys
+import asyncio
 import os
-sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 
-from core_utils import (
+from .core_utils import (
     BaseStreamServer,
     stream_logger,
     MODEL,
@@ -14,8 +13,6 @@ from core_utils import (
     PROJECT_ID,
     LOCATION,
 )
-
-import asyncio
 import json
 import base64
 import uuid

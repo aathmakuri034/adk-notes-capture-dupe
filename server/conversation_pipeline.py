@@ -16,7 +16,7 @@ from pydantic import ValidationError
 from google.genai import Client
 import google.genai.types as types
 import logging
-from schema import (
+from .schema import (
     Job,
     PaintingJob,
     ElectricalJob,
@@ -25,7 +25,7 @@ from schema import (
     GeneralJob
 )
 
-from subjob_schema import (
+from .subjob_schema import (
     # Plumbing Subjobs
     BurstPipeJob,
     DrainCleaningJob,
@@ -69,7 +69,7 @@ from subjob_schema import (
 )
 
 # Azure Blob Storage
-from blob_storage import AzureBlobStorage
+from .blob_storage import AzureBlobStorage
 
 # Set up logging
 logger = logging.getLogger(__name__)

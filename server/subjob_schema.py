@@ -2,7 +2,7 @@ from pydantic import Field
 from typing import Optional, Literal, Union
 from enum import Enum
 
-from schema import(
+from .schema import(
     UrgencyLevel,
     LocationType,
     ComplexityLevel,
