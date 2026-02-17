@@ -1,0 +1,107 @@
+{
+  "name": "@vcmach/adk-notes-capture-server",
+  "version": "1.0.0",
+  "description": "TypeScript WebSocket server for voice-enabled job intake and notes capture using Google Gemini Live API",
+  "type": "module",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "default": "./dist/index.js"
+    },
+    "./streaming-service": {
+      "types": "./dist/streaming-service.d.ts",
+      "default": "./dist/streaming-service.js"
+    },
+    "./notes-streaming-service": {
+      "types": "./dist/notes-streaming-service.d.ts",
+      "default": "./dist/notes-streaming-service.js"
+    },
+    "./database": {
+      "types": "./dist/database.d.ts",
+      "default": "./dist/database.js"
+    },
+    "./gemini-live-client": {
+      "types": "./dist/gemini-live-client.d.ts",
+      "default": "./dist/gemini-live-client.js"
+    },
+    "./conversation-pipeline": {
+      "types": "./dist/conversation-pipeline.d.ts",
+      "default": "./dist/conversation-pipeline.js"
+    },
+    "./config": {
+      "types": "./dist/config.d.ts",
+      "default": "./dist/config.js"
+    },
+    "./schema": {
+      "types": "./dist/schema.d.ts",
+      "default": "./dist/schema.js"
+    },
+    "./azure-blob-storage": {
+      "types": "./dist/azure-blob-storage.d.ts",
+      "default": "./dist/azure-blob-storage.js"
+    },
+    "./gcs-storage": {
+      "types": "./dist/gcs-storage.d.ts",
+      "default": "./dist/gcs-storage.js"
+    },
+    "./standard-gemini-client": {
+      "types": "./dist/standard-gemini-client.d.ts",
+      "default": "./dist/standard-gemini-client.js"
+    },
+    "./package.json": "./package.json"
+  },
+  "files": [
+    "dist/**/*.js",
+    "dist/**/*.d.ts",
+    "dist/**/*.d.ts.map",
+    "dist/**/*.js.map",
+    "README.md"
+  ],
+  "scripts": {
+    "build": "npx tsc",
+    "clean": "rm -rf dist",
+    "typecheck": "tsc --noEmit",
+    "dev": "tsx watch src/streaming-service.ts",
+    "start:jobs": "tsx src/streaming-service.ts",
+    "start:notes": "tsx src/notes-streaming-service.ts",
+    "start:all": "concurrently \"npm run start:jobs\" \"npm run start:notes\""
+  },
+  "keywords": [
+    "websocket",
+    "gemini",
+    "voice",
+    "job-intake",
+    "notes-capture",
+    "google-adk",
+    "typescript",
+    "realtime-audio"
+  ],
+  "license": "MIT",
+  "engines": {
+    "node": ">=18.0.0"
+  },
+  "dependencies": {
+    "better-sqlite3": "^11.7.0",
+    "dotenv": "^16.4.5",
+    "google-auth-library": "^9.14.0",
+    "uuid": "^10.0.0",
+    "ws": "^8.18.0"
+  },
+  "peerDependencies": {
+    "@azure/storage-blob": "^12.30.0",
+    "@google-cloud/storage": "^7.14.0"
+  },
+  "peerDependenciesMeta": {
+    "@azure/storage-blob": { "optional": true },
+    "@google-cloud/storage": { "optional": true }
+  },
+  "devDependencies": {
+    "@types/better-sqlite3": "^7.6.12",
+    "@types/node": "^22.10.0",
+    "@types/uuid": "^10.0.0",
+    "@types/ws": "^8.5.13",
+    "concurrently": "^9.1.0",
+    "tsx": "^4.19.0",
+    "typescript": "^5.6.0"
+  }
+}

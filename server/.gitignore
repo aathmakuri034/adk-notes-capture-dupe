@@ -43,3 +43,6 @@ wheels/
 .DS_Store
 Thumbs.db
 
+conversation_data/
+transcripts/
+voice_notes_data/

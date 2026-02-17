@@ -1,54 +1,100 @@
 'use client';
 
 import React, { useState, useEffect } from 'react';
-import { Search, MapPin, Clock, AlertCircle, CheckCircle, Calendar, Briefcase, Code, Copy, X } from 'lucide-react';
-// ✅ FRONTEND - Import types for reference (optional - for documentation)
-import type {
-  JobCategory,
-  UrgencyLevel,
-  ComplexityLevel,
-  LocationType
-} from '@vcmach/adk-notes-capture-server/schema';
+import type { Job, JobMetadata, JobBoardConfig } from '../types';
 
-// Frontend-specific interfaces (transformed from backend Job schema)
-interface JobMetadata {
-  estimated_duration_minutes: number;
-  urgency: UrgencyLevel;
-  location_context: LocationType;
-  job_category: JobCategory;
-  problem_type: string;
-  complexity: ComplexityLevel;
-  communication_preference: string;
-  key_details: string[];
+// Inline icons to avoid external dependency for library consumers
+const SearchIcon = () => (
+  <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+  </svg>
+);
+
+const MapPinIcon = () => (
+  <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
+    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
+  </svg>
+);
+
+const ClockIcon = () => (
+  <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
+  </svg>
+);
+
+const AlertCircleIcon = () => (
+  <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+  </svg>
+);
+
+const CalendarIcon = () => (
+  <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
+  </svg>
+);
+
+const BriefcaseIcon = () => (
+  <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 13.255A23.931 23.931 0 0112 15c-3.183 0-6.22-.62-9-1.745M16 6V4a2 2 0 00-2-2h-4a2 2 0 00-2 2v2m4 6h.01M5 20h14a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
+  </svg>
+);
+
+const CodeIcon = () => (
+  <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10 20l4-16m4 4l4 4-4 4M6 16l-4-4 4-4" />
+  </svg>
+);
+
+const CopyIcon = () => (
+  <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z" />
+  </svg>
+);
+
+const XIcon = () => (
+  <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+  </svg>
+);
+
+const CheckCircleIcon = () => (
+  <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
+  </svg>
+);
+
+export interface JobBoardProps extends JobBoardConfig {
+  /** Initial jobs to display (optional, will fetch from API if not provided) */
+  initialJobs?: Job[];
 }
 
-interface Job {
-  id: string;
-  title: string;
-  summary: string;
-  metadata: JobMetadata;
-  created_at: string;
-  conversation_turns: number;
-}
-
-const JobBoard = () => {
-  const [jobs, setJobs] = useState<Job[]>([]);
-  const [filteredJobs, setFilteredJobs] = useState<Job[]>([]);
+const JobBoard: React.FC<JobBoardProps> = ({
+  apiBaseUrl = '/api',
+  debug = false,
+  onJobSelect,
+  onViewJson,
+  initialJobs
+}) => {
+  const [jobs, setJobs] = useState<Job[]>(initialJobs || []);
+  const [filteredJobs, setFilteredJobs] = useState<Job[]>(initialJobs || []);
   const [selectedJob, setSelectedJob] = useState<Job | null>(null);
   const [searchQuery, setSearchQuery] = useState('');
   const [categoryFilter, setCategoryFilter] = useState('all');
   const [urgencyFilter, setUrgencyFilter] = useState('all');
-  const [loading, setLoading] = useState(true);
+  const [loading, setLoading] = useState(!initialJobs);
   const [error, setError] = useState<string | null>(null);
 
-  // JSON viewer state
   const [showJsonModal, setShowJsonModal] = useState(false);
   const [selectedJobJson, setSelectedJobJson] = useState<string>('');
   const [jsonCopied, setJsonCopied] = useState(false);
 
   // Fetch jobs from API
   useEffect(() => {
-    fetch('/api/jobs')
+    if (initialJobs) return;
+
+    fetch(`${apiBaseUrl}/jobs`)
       .then(res => res.json())
       .then(data => {
         if (data.jobs) {
@@ -62,7 +108,7 @@ const JobBoard = () => {
         setError('Failed to load jobs');
         setLoading(false);
       });
-  }, []);
+  }, [apiBaseUrl, initialJobs]);
 
   // Filter jobs based on search and filters
   useEffect(() => {
@@ -87,30 +133,37 @@ const JobBoard = () => {
     setFilteredJobs(filtered);
   }, [searchQuery, categoryFilter, urgencyFilter, jobs]);
 
-  // Fetch and display JSON
   const handleViewJson = async (jobId: string) => {
     try {
-      const response = await fetch(`/api/jobs/${jobId}`);
+      const response = await fetch(`${apiBaseUrl}/jobs/${jobId}`);
       const data = await response.json();
-      
+
       if (data.success) {
         setSelectedJobJson(data.raw_json);
         setShowJsonModal(true);
+
+        if (onViewJson) {
+          onViewJson(jobId, data.raw_json);
+        }
       } else {
         console.error('Failed to fetch job JSON:', data.error);
-        alert('Failed to load JSON data');
       }
     } catch (error) {
       console.error('Error fetching job JSON:', error);
-      alert('Error loading JSON data');
     }
   };
 
-  // Copy JSON to clipboard
   const handleCopyJson = () => {
     navigator.clipboard.writeText(selectedJobJson);
     setJsonCopied(true);
     setTimeout(() => setJsonCopied(false), 2000);
+  };
+
+  const handleJobClick = (job: Job) => {
+    setSelectedJob(job);
+    if (onJobSelect) {
+      onJobSelect(job);
+    }
   };
 
   const getUrgencyColor = (urgency?: string) => {
@@ -148,7 +201,7 @@ const JobBoard = () => {
     const now = new Date();
     const diffTime = Math.abs(now.getTime() - date.getTime());
     const diffDays = Math.floor(diffTime / (1000 * 60 * 60 * 24));
-    
+
     if (diffDays === 0) return 'Today';
     if (diffDays === 1) return 'Yesterday';
     if (diffDays < 7) return `${diffDays} days ago`;
@@ -170,7 +223,7 @@ const JobBoard = () => {
     return (
       <div className="min-h-screen flex items-center justify-center">
         <div className="text-center">
-          <AlertCircle className="mx-auto text-red-600 mb-4" size={48} />
+          <div className="mx-auto text-red-600 mb-4"><AlertCircleIcon /></div>
           <h2 className="text-xl font-semibold text-gray-900 mb-2">Error Loading Jobs</h2>
           <p className="text-gray-600">{error}</p>
         </div>
@@ -201,7 +254,9 @@ const JobBoard = () => {
           <div className="flex flex-col lg:flex-row gap-4">
             <div className="flex-1">
               <div className="relative">
-                <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400" size={20} />
+                <div className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400">
+                  <SearchIcon />
+                </div>
                 <input
                   type="text"
                   placeholder="Search jobs by title, location, or description..."
@@ -243,7 +298,7 @@ const JobBoard = () => {
         {/* Job Grid */}
         {filteredJobs.length === 0 ? (
           <div className="bg-white rounded-xl shadow-sm border border-gray-200 p-12 text-center">
-            <Briefcase className="mx-auto text-gray-400 mb-4" size={48} />
+            <div className="mx-auto text-gray-400 mb-4"><BriefcaseIcon /></div>
             <h3 className="text-xl font-semibold text-gray-900 mb-2">No jobs found</h3>
             <p className="text-gray-600">Try adjusting your search or filters</p>
           </div>
@@ -266,19 +321,19 @@ const JobBoard = () => {
 
                 <div className="grid grid-cols-2 gap-4 mb-4">
                   <div className="flex items-center text-sm text-gray-600">
-                    <MapPin size={16} className="mr-2 text-blue-600" />
+                    <span className="mr-2 text-blue-600"><MapPinIcon /></span>
                     <span>{job.metadata.location_context}</span>
                   </div>
                   <div className="flex items-center text-sm text-gray-600">
-                    <Briefcase size={16} className="mr-2 text-purple-600" />
+                    <span className="mr-2 text-purple-600"><BriefcaseIcon /></span>
                     <span>{job.metadata.job_category}</span>
                   </div>
                   <div className="flex items-center text-sm text-gray-600">
-                    <Clock size={16} className="mr-2 text-green-600" />
+                    <span className="mr-2 text-green-600"><ClockIcon /></span>
                     <span>{formatDuration(job.metadata.estimated_duration_minutes)}</span>
                   </div>
                   <div className="flex items-center text-sm text-gray-600">
-                    <Calendar size={16} className="mr-2 text-orange-600" />
+                    <span className="mr-2 text-orange-600"><CalendarIcon /></span>
                     <span>{formatDate(job.created_at)}</span>
                   </div>
                 </div>
@@ -295,18 +350,18 @@ const JobBoard = () => {
                 <div className="pt-4 border-t border-gray-100 flex items-center justify-between">
                   <span className="text-xs text-gray-500">Job ID: {job.id}</span>
                   <div className="flex gap-2">
-                    <button 
+                    <button
                       onClick={(e) => {
                         e.stopPropagation();
                         handleViewJson(job.id);
                       }}
                       className="px-3 py-2 bg-gray-800 text-white rounded-lg hover:bg-gray-900 transition-colors text-sm font-semibold flex items-center gap-2"
                     >
-                      <Code size={16} />
+                      <CodeIcon />
                       JSON
                     </button>
-                    <button 
-                      onClick={() => setSelectedJob(job)}
+                    <button
+                      onClick={() => handleJobClick(job)}
                       className="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors text-sm font-semibold"
                     >
                       View Details
@@ -333,7 +388,7 @@ const JobBoard = () => {
                   onClick={() => setSelectedJob(null)}
                   className="text-white hover:bg-white hover:bg-opacity-20 rounded-lg p-2 transition-colors"
                 >
-                  <X size={24} />
+                  <XIcon />
                 </button>
               </div>
             </div>
@@ -342,7 +397,7 @@ const JobBoard = () => {
               <div className="grid grid-cols-2 gap-4 mb-6">
                 <div className="bg-blue-50 p-4 rounded-lg">
                   <div className="flex items-center text-blue-600 mb-2">
-                    <MapPin size={20} className="mr-2" />
+                    <span className="mr-2"><MapPinIcon /></span>
                     <span className="font-semibold">Location</span>
                   </div>
                   <p className="text-gray-900 font-medium">{selectedJob.metadata.location_context}</p>
@@ -350,7 +405,7 @@ const JobBoard = () => {
 
                 <div className="bg-purple-50 p-4 rounded-lg">
                   <div className="flex items-center text-purple-600 mb-2">
-                    <Briefcase size={20} className="mr-2" />
+                    <span className="mr-2"><BriefcaseIcon /></span>
                     <span className="font-semibold">Category</span>
                   </div>
                   <p className="text-gray-900 font-medium">{selectedJob.metadata.job_category}</p>
@@ -358,7 +413,7 @@ const JobBoard = () => {
 
                 <div className="bg-green-50 p-4 rounded-lg">
                   <div className="flex items-center text-green-600 mb-2">
-                    <Clock size={20} className="mr-2" />
+                    <span className="mr-2"><ClockIcon /></span>
                     <span className="font-semibold">Duration</span>
                   </div>
                   <p className="text-gray-900 font-medium">{formatDuration(selectedJob.metadata.estimated_duration_minutes)}</p>
@@ -366,7 +421,7 @@ const JobBoard = () => {
 
                 <div className={`p-4 rounded-lg ${getUrgencyColor(selectedJob.metadata.urgency)}`}>
                   <div className="flex items-center mb-2">
-                    <AlertCircle size={20} className="mr-2" />
+                    <span className="mr-2"><AlertCircleIcon /></span>
                     <span className="font-semibold">Urgency</span>
                   </div>
                   <p className="font-medium">{selectedJob.metadata.urgency?.toUpperCase() || 'UNKNOWN'}</p>
@@ -375,7 +430,7 @@ const JobBoard = () => {
 
               <div className="mb-6">
                 <h3 className="text-lg font-bold text-gray-900 mb-3 flex items-center">
-                  <CheckCircle className="mr-2 text-green-600" size={20} />
+                  <span className="mr-2 text-green-600"><CheckCircleIcon /></span>
                   Job Details
                 </h3>
                 <div className="bg-gray-50 rounded-lg p-4">
@@ -408,11 +463,11 @@ const JobBoard = () => {
               </div>
 
               <div className="flex gap-3">
-                <button 
+                <button
                   onClick={() => handleViewJson(selectedJob.id)}
                   className="px-6 bg-gray-800 text-white py-3 rounded-lg font-semibold hover:bg-gray-900 transition-colors flex items-center gap-2"
                 >
-                  <Code size={18} />
+                  <CodeIcon />
                   View JSON
                 </button>
                 <button className="flex-1 bg-gradient-to-r from-blue-600 to-purple-600 text-white py-3 rounded-lg font-semibold hover:from-blue-700 hover:to-purple-700 transition-all shadow-md hover:shadow-lg">
@@ -429,18 +484,17 @@ const JobBoard = () => {
 
       {/* JSON Viewer Modal */}
       {showJsonModal && (
-        <div 
-          className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center p-4 z-50" 
+        <div
+          className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center p-4 z-50"
           onClick={() => setShowJsonModal(false)}
         >
-          <div 
-            className="bg-white rounded-2xl shadow-2xl max-w-4xl w-full max-h-[90vh] overflow-hidden flex flex-col" 
+          <div
+            className="bg-white rounded-2xl shadow-2xl max-w-4xl w-full max-h-[90vh] overflow-hidden flex flex-col"
             onClick={(e) => e.stopPropagation()}
           >
-            {/* Header */}
             <div className="bg-gray-900 p-6 flex items-center justify-between">
               <div className="flex items-center gap-3">
-                <Code className="text-green-400" size={24} />
+                <span className="text-green-400"><CodeIcon /></span>
                 <h2 className="text-xl font-bold text-white">Raw JSON Data</h2>
               </div>
               <div className="flex items-center gap-2">
@@ -448,26 +502,24 @@ const JobBoard = () => {
                   onClick={handleCopyJson}
                   className="px-4 py-2 bg-gray-800 text-white rounded-lg hover:bg-gray-700 transition-colors flex items-center gap-2"
                 >
-                  <Copy size={16} />
+                  <CopyIcon />
                   {jsonCopied ? 'Copied!' : 'Copy'}
                 </button>
                 <button
                   onClick={() => setShowJsonModal(false)}
                   className="text-gray-400 hover:text-white transition-colors p-2"
                 >
-                  <X size={24} />
+                  <XIcon />
                 </button>
               </div>
             </div>
 
-            {/* JSON Content */}
             <div className="flex-1 overflow-y-auto p-6 bg-gray-50">
               <pre className="bg-gray-900 text-green-400 p-6 rounded-lg overflow-x-auto font-mono text-sm">
                 <code>{selectedJobJson}</code>
               </pre>
             </div>
 
-            {/* Footer */}
             <div className="bg-gray-100 p-4 border-t border-gray-200">
               <p className="text-sm text-gray-600 text-center">
                 This is the raw JSON schema data stored in the system

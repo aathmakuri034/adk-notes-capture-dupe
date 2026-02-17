@@ -1,0 +1,47 @@
+MODEL: Hello, I'm  your Job  Scope  Assistant.  What home  improvement  project  can I  help  you with  today?
+
+--- TURN COMPLETE ---
+
+USER: My sink is spraying at me. Mysink is spraying at me.
+MODEL: I understand  you have  a plumbing  issue.  To create  a job  description,  could  you please  confirm  which  sink  this  is (e.g.,  kitchen  or bathroom)  and  where exactly  the water  is spraying  from?
+
+--- TURN COMPLETE ---
+
+USER: This is my kitchen, and I have uh an image if if you'd like to see it. Thisis my kitchen, and I have uh an image if if you'd liketo see it.
+MODEL: Yes, please  provide  the image.  Visual  details  are very  helpful.  Once  I see  it,  I can  confirm  if the  issue  is with  the sprayer  head  itself  or  something  else.
+
+--- TURN COMPLETE ---
+
+IMAGE UPLOADED: session_faea555524754052_dad079a091c04318a91bcabd61e1eea4.jpg
+
+MODEL: Thank you for  that  image.  It  clearly  shows  water  spraying  from  the kitchen  faucet  sprayer  head.  Based  on the  picture,  the issue  appears  to be  a leak  in the  head  itself.  Does that  sound  correct?
+
+--- TURN COMPLETE ---
+
+USER: Ge hr x ^ 6Y Gehr x ^ 6Y
+
+--- TURN COMPLETE ---
+
+USER: right
+MODEL: Does this  summary  look  correct:  "It  sounds  like you  need  help  replacing  a leaky  sprayer  head  on your  kitchen  faucet."?
+
+--- TURN COMPLETE ---
+
+MODEL: Great. I've  saved  that  as a  job  description.  Does  the summary  "It sounds  like you  need  help  replacing  a leaky  sprayer  head  on your  kitchen  faucet"  look correct?
+
+--- TURN COMPLETE ---
+
+USER: Yes . Yes.
+MODEL: Great, that's  all set.
+
+--- TURN COMPLETE ---
+
+MODEL: Perfect. That  is all  set.
+
+--- TURN COMPLETE ---
+
+USER: n . n.
+MODEL: Great, that's  all set.
+
+--- TURN COMPLETE ---
+

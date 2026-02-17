@@ -4,7 +4,6 @@ import { useState, useEffect, useRef, forwardRef, useImperativeHandle, useCallba
 import { VoiceAgentWebSocket } from '@/lib/websocket-client';
 import { useRouter } from 'next/navigation';
 import { AudioRecorder } from '@/lib/audio-recorder';
-import { supabaseClient } from "@/lib/supabaseClient";
 
 
 interface Message {
@@ -332,6 +331,7 @@ const ChatInterface = forwardRef<ChatInterfaceRef, ChatInterfaceProps>(({
         });
 
         wsRef.current.on('text', (message) => {
+            console.log('🤖 Received text message:', message.data, 'isPaused:', isPaused);
             if (message.data && !isPaused) {
                 // Failsafe: if we receive text, we are connected
                 setConnectionStatus('connected');
@@ -368,6 +368,7 @@ const ChatInterface = forwardRef<ChatInterfaceRef, ChatInterfaceProps>(({
         });
 
         wsRef.current.on('user_transcript', (message) => {
+            console.log('📝 Received user_transcript:', message.data, 'isPaused:', isPaused);
             if (message.data && !isPaused) {
                 // Failsafe: if we receive user transcript, we are connected
                 setConnectionStatus('connected');
@@ -641,17 +642,6 @@ const ChatInterface = forwardRef<ChatInterfaceRef, ChatInterfaceProps>(({
                         <span>View Job</span>
                     </button>
                 )}
-                {/* LOGOUT BUTTON */}
-                <button
-                    onClick={async () => {
-                        await supabaseClient.auth.signOut();
-                        window.location.href = "/login";
-                    }}
-                    className="ml-4 bg-red-500 hover:bg-red-600 text-white px-3 py-1.5 rounded-lg text-sm font-medium transition-all shadow-md"
-                >
-                    Logout
-                </button>
-
 
                 </div>
             </div>

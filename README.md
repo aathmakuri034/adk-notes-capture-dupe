@@ -1,174 +1,256 @@
-# Voice Notes Capture - Full Stack Application
+# ADK Notes Capture Agent
 
-A complete voice notes capture application with a Next.js frontend and Python backend powered by Google ADK (Agent Development Kit).
+Voice-enabled job intake and notes capture using Google Gemini Live API.
+
+This monorepo contains a TypeScript WebSocket server (`server-ts/`) and a demo Next.js frontend. The server package is designed to be used standalone or integrated into your own project.
+
+## Quick Start
+
+### Prerequisites
+
+- **Node.js** >= 18
+- **npm** >= 7 (for workspace support)
+- **Google Cloud Project** with the Vertex AI API enabled
+- **GCP Authentication** — one of:
+  - `GOOGLE_APPLICATION_CREDENTIALS` pointing to a service account key file, **or**
+  - `gcloud auth application-default login` for local development
+
+### 1. Clone and install
+
+```bash
+git clone https://github.com/yourorg/adk-notes-capture-agent.git
+cd adk-notes-capture-agent
+npm install
+```
+
+This single `npm install` sets up both the root frontend and the `server-ts` workspace.
+
+### 2. Configure environment
+
+```bash
+cp server-ts/.env.example server-ts/.env
+```
+
+Edit `server-ts/.env` with your values:
+
+```env
+PROJECT_ID=your-gcp-project-id
+LOCATION=us-central1
+MODEL=gemini-live-2.5-flash-native-audio
+VOICE_NAME=Aoede
+GOOGLE_GENAI_USE_VERTEXAI=TRUE
+```
+
+> **Important:** The Gemini Live API requires Vertex AI (OAuth2). API keys are **not** supported for the Live API.
+
+If you haven't already, authenticate with Google Cloud:
+
+```bash
+gcloud auth application-default login
+```
+
+### 3. Build the server package
+
+```bash
+cd server-ts && npm run build && cd ..
+```
+
+### 4. Start the backend
+
+```bash
+cd server-ts && npm run start:all
+```
+
+This starts two WebSocket services:
+
+| Service | Port | Description |
+|---------|------|-------------|
+| Job Scope | 8080 | Voice-based job intake assistant |
+| Voice Notes | 8081 | Quick voice memo capture |
+
+### 5. Start the demo frontend
+
+In a **separate terminal** from the project root:
+
+```bash
+npm run dev
+```
+
+Open [http://localhost:3000](http://localhost:3000).
 
 ## Project Structure
 
 ```
-adk-voice-agent/
-├── server/                  # Python backend server
-│   ├── streaming_service.py
-│   ├── core_utils.py
-│   ├── schema.py
-│   ├── requirements.txt
-│   └── README.md
-├── app/                     # Next.js App Router
-│   ├── layout.tsx
-│   ├── page.tsx
-│   └── globals.css
-├── components/              # React components
-│   ├── VoiceInterface.tsx
-│   ├── JobBoard.tsx
-│   ├── ChatInterface.tsx
-│   └── NotesDisplay.tsx
-├── lib/                     # Utility libraries
-│   ├── websocket-client.ts
-│   └── audio-recorder.ts
-└── package.json             # Node.js dependencies
+adk-notes-capture-agent/
+├── server-ts/                 # Backend package (npm workspace)
+│   ├── src/
+│   │   ├── streaming-service.ts       # Job scope WebSocket server
+│   │   ├── notes-streaming-service.ts # Voice notes WebSocket server
+│   │   ├── gemini-live-client.ts      # Gemini Live API client
+│   │   ├── standard-gemini-client.ts  # Standard Gemini API (video)
+│   │   ├── conversation-pipeline.ts   # Job extraction pipeline
+│   │   ├── database.ts                # SQLite database
+│   │   ├── config.ts                  # Configuration / env vars
+│   │   ├── schema.ts                  # Job type definitions
+│   │   ├── azure-blob-storage.ts      # Azure Blob Storage (optional)
+│   │   └── gcs-storage.ts             # Google Cloud Storage (optional)
+│   ├── package.json
+│   ├── tsconfig.json
+│   └── .env.example
+├── app/                       # Next.js demo frontend (not packaged)
+├── components/                # React UI components (not packaged)
+├── package.json               # Root workspace config
+└── README.md
 ```
-
-## Quick Start
-
-### 1. Backend Setup (Python)
-
-```bash
-cd server
-
-# Create and activate virtual environment
-python3 -m venv venv
-source venv/bin/activate  # On Windows: venv\Scripts\activate
-
-# Install dependencies
-pip install --upgrade pip
-pip install -r requirements.txt
-
-# Configure environment
-cp .env.example .env
-# Edit .env with your Google Cloud credentials
-
-# Run the server
-python streaming_service.py
-```
-
-**Or use the setup script:**
-```bash
-cd server
-./setup.sh  # macOS/Linux
-# or
-setup.bat   # Windows
-```
-
-The backend server will start on `ws://localhost:8080`.
-
-See [server/README.md](server/README.md) for detailed backend setup instructions.
-
-### 2. Frontend Setup (Next.js)
-
-```bash
-# From project root
-npm install
-npm run dev
-```
-
-The frontend will be available at `http://localhost:3000`.
-
-See the main [README.md](README.md) for detailed frontend usage.
-
-## Features
-
-- 🎤 Real-time voice recording
-- 🤖 Google ADK Voice Agent integration
-- 📝 Automatic note summarization
-- 💾 Save and manage captured notes
-- 🔌 WebSocket-based real-time communication
-- 🎨 Modern, responsive UI
 
 ## Environment Variables
 
-### Backend (.env in server/)
+### Backend (`server-ts/.env`)
 
-**IMPORTANT:** The Live API (real-time voice streaming) **REQUIRES** Vertex AI authentication. API keys are **NOT** supported for Live API.
+| Variable | Required | Default | Description |
+|----------|----------|---------|-------------|
+| `PROJECT_ID` | Yes | — | Google Cloud project ID |
+| `LOCATION` | No | `us-central1` | GCP region |
+| `MODEL` | No | `gemini-2.0-flash-live-001` | Gemini Live model |
+| `EXTRACTION_MODEL` | No | `gemini-2.0-flash` | Model for job extraction |
+| `VOICE_NAME` | No | `Aoede` | TTS voice |
+| `GOOGLE_GENAI_USE_VERTEXAI` | Yes | — | Must be `TRUE` |
+| `JOB_SERVICE_PORT` | No | `8080` | Job scope service port |
+| `NOTES_SERVICE_PORT` | No | `8081` | Notes service port |
+| `AZURE_STORAGE_CONNECTION_STRING` | No | — | Azure Blob Storage (optional) |
+| `AZURE_CONTAINER_NAME` | No | `extracted-data` | Azure container name |
+| `VIDEO_API_MODEL` | No | `gemini-2.0-flash` | Model for video analysis |
+| `VIDEO_MAX_SIZE_MB` | No | `50` | Max video upload size |
 
-### Vertex AI Configuration (Required)
-
-```env
-PROJECT_ID=your-project-id
-LOCATION=us-central1
-MODEL=gemini-1.5-pro
-VOICE_NAME=aoede
-GOOGLE_GENAI_USE_VERTEXAI=TRUE
-```
-
-**Note:** For Live API, use models like `gemini-1.5-pro`, `gemini-1.5-flash`, or `gemini-2.0-flash`. The experimental model `gemini-2.0-flash-exp` is NOT supported for Live API.
-
-**Why Vertex AI is Required:**
-The Gemini Live API (used for real-time voice streaming) requires OAuth2 authentication. API keys only work for standard API calls, not Live API.
-
-**Set up Google Cloud credentials:**
-```bash
-# Option 1: Service Account Key
-export GOOGLE_APPLICATION_CREDENTIALS=/path/to/service-account-key.json
-
-# Option 2: Application Default Credentials (local development)
-gcloud auth application-default login
-```
-
-**Enable Vertex AI API:**
-```bash
-gcloud services enable aiplatform.googleapis.com
-```
-
-### Frontend (.env.local in project root)
+### Frontend (`.env.local` in project root)
 
 ```env
 NEXT_PUBLIC_WS_URL=ws://localhost:8080
+NEXT_PUBLIC_NOTES_WS_URL=ws://localhost:8081
 ```
 
-## Usage
+## Using the Server Package in Your Own Project
 
-1. Start the Python backend server
-2. Start the Next.js frontend
-3. Open the application in your browser
-4. Wait for connection (green indicator)
-5. Click the microphone button to start recording
-6. Speak your notes
-7. View the AI-generated summary
-8. Save notes to your collection
+The `server-ts` package (`@vcmach/adk-notes-capture-server`) can be installed independently.
 
-## Development
-
-### Backend Development
+### Install
 
 ```bash
-cd server
-python streaming_service.py
+# From Git
+npm install git+https://github.com/yourorg/adk-notes-capture-agent.git#main:server-ts
+
+# Or as a workspace
+# Add "server-ts" to your root package.json "workspaces" array and:
+npm install
 ```
 
-### Frontend Development
+### Start services programmatically
 
-```bash
-npm run dev
+```typescript
+import { loadEnv } from '@vcmach/adk-notes-capture-server';
+import { startJobService } from '@vcmach/adk-notes-capture-server/streaming-service';
+import { startNotesService } from '@vcmach/adk-notes-capture-server/notes-streaming-service';
+
+loadEnv();  // Load .env file
+
+await Promise.all([
+  startJobService(8080),
+  startNotesService(8081),
+]);
 ```
+
+### Use database and job extraction
+
+```typescript
+import { initDb, getNotes, closeDb } from '@vcmach/adk-notes-capture-server';
+import { getJobSummaryTracker } from '@vcmach/adk-notes-capture-server/conversation-pipeline';
+
+initDb();
+
+const tracker = getJobSummaryTracker();
+const jobs = await tracker.getAllJobs();
+const notes = getNotes();
+
+closeDb();
+```
+
+### Import types (safe for frontend)
+
+```typescript
+import type {
+  Job,
+  JobCategory,
+  PlumbingJob,
+  ElectricalJob,
+} from '@vcmach/adk-notes-capture-server/schema';
+```
+
+See [server-ts/README.md](server-ts/README.md) for the full API reference.
+
+## WebSocket Protocol
+
+### Client -> Server
+
+| Message Type | Description |
+|-------------|-------------|
+| `audio` | Base64 encoded audio chunk (PCM 16kHz mono) |
+| `text` | Text message |
+| `image` | Base64 encoded image |
+| `video_file` | Base64 encoded video |
+| `start_recording` | Begin voice recording (notes service) |
+| `stop_recording` | End voice recording (notes service) |
+| `get_notes` | Request all saved notes |
+| `generate_summary` | Request job summary |
+
+### Server -> Client
+
+| Message Type | Description |
+|-------------|-------------|
+| `ready` | Connection established |
+| `audio` | Audio response from AI |
+| `text` | Text/transcription from AI |
+| `user_transcript` | Transcription of user speech |
+| `turn_complete` | AI turn finished |
+| `interrupted` | Response was interrupted |
+| `note_saved` | Note saved (with data) |
+| `notes_list` | List of all notes |
+| `error` | Error message |
 
 ## Troubleshooting
 
-### Connection Issues
+### "Live API requires Vertex AI authentication"
 
-- Ensure backend is running on port 8080
-- Check WebSocket URL in frontend `.env.local`
-- Verify firewall settings
+Ensure your `.env` has `GOOGLE_GENAI_USE_VERTEXAI=TRUE` and valid GCP credentials:
 
-### Audio Issues
+```bash
+gcloud auth application-default login
+```
 
-- Grant microphone permissions in browser
-- Check audio format (PCM, 16kHz, mono)
-- Verify WebSocket connection is established
+### Cannot find module 'adk-notes-capture-server'
 
-### Backend Issues
+Rebuild after a fresh install:
 
-- Verify Google Cloud credentials
-- Check environment variables
-- Ensure Python dependencies are installed
+```bash
+rm -rf node_modules package-lock.json
+npm install
+cd server-ts && npm run build && cd ..
+```
+
+### Type errors about @types/node
+
+The root and server-ts use different `@types/node` versions. The `overrides` field in root `package.json` handles this. If issues persist:
+
+```bash
+rm -rf node_modules package-lock.json && npm install
+```
+
+### gcloud CLI not found (macOS)
+
+```bash
+brew install --cask google-cloud-sdk
+export PATH="/opt/homebrew/share/google-cloud-sdk/bin:$PATH"
+gcloud auth application-default login
+```
 
 ## License
 
