@@ -1,0 +1,36 @@
+MODEL: Hello, I'm  the Job  Scope  Assistant.  What  home  improvement  project  can I  help  you with  today?
+
+--- TURN COMPLETE ---
+
+USER: My kitchen sink is dripping.
+
+MODEL: Thank you.  To confirm,  you're experiencing  a dripping  kitchen  sink.  Is  the dripping  coming  from  the faucet  or  underneath  the sink?
+
+--- TURN COMPLETE ---
+
+USER: under neath the sink
+
+MODEL: Understood. Is  there visible  water  damage  or  flooding  underneath  the sink?
+
+--- TURN COMPLETE ---
+
+USER: Yes .
+
+MODEL: Thank you.  Does  the dripping  seem  to be  coming  from  the pipe  or the  fixture  itself?
+
+--- TURN COMPLETE ---
+
+USER: top five
+
+MODEL: It sounds  like you  need help  fixing  a leaking  pipe  under  your kitchen  sink.  Does this  summary  look correct?
+
+--- TURN COMPLETE ---
+
+USER: Yes .
+
+--- TURN COMPLETE ---
+
+MODEL: Great. I've  saved  that job  description  for you.
+
+--- TURN COMPLETE ---
+

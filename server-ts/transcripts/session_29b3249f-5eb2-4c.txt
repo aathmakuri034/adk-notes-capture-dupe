@@ -1,0 +1,30 @@
+MODEL: Hello! I'm  your Job  Scope  Assistant.  What  home  improvement  project  can I  help you  with today?
+
+--- TURN COMPLETE ---
+
+USER: My water heater just exploded everywhere.
+
+MODEL: I'm sorry  to hear  that!  That sounds  like  stressful.  To help  you best,  can  you tell  me the  exact  location  of the  water  heater  and  the extent  damage  you're seeing?
+
+--- TURN COMPLETE ---
+
+USER: My water heater is located in my basement. There's a considerable amount of flooding and I have no more hot water in the house.
+
+MODEL: Got it.  Do you know  if it's  a gas  or electric  model,  and  how  old  it was?
+
+--- TURN COMPLETE ---
+
+USER: It was a gas model, maybe 10 years old.
+
+MODEL: Thank you.  Does  this  summary  look  correct:  "It  sounds  like you  need  help  replacing  a 10-year-old  gas  water  heater  located  in your  basement  due to  a rupture  causing  flooding  and a  lack  of hot  water."
+
+--- TURN COMPLETE ---
+
+USER: Yes .
+
+--- TURN COMPLETE ---
+
+MODEL: OK. I've  saved  that job  for you.  Is there  anything  else  I can  help with?
+
+--- TURN COMPLETE ---
+

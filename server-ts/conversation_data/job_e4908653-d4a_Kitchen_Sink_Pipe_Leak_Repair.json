@@ -1,0 +1,30 @@
+{
+  "category": "plumbing",
+  "userId": "user_1770865512376",
+  "title": "Kitchen Sink Pipe Leak Repair",
+  "description": "Repair a leaking pipe under the kitchen sink.",
+  "locationType": "indoor",
+  "specificLocation": "Kitchen",
+  "urgency": "medium",
+  "complexity": "basic",
+  "estimatedDurationMinutes": 90,
+  "problemType": "Leak repair",
+  "keyDetails": [
+    "Leaking pipe under kitchen sink",
+    "Dripping severity",
+    "Water damage present"
+  ],
+  "hasImages": false,
+  "hasVideo": false,
+  "createdAt": "2026-02-12T03:06:28.919Z",
+  "lastUpdated": "2026-02-12T03:06:28.922Z",
+  "issueType": "leak",
+  "fixtureType": "sink",
+  "severity": "minor",
+  "waterDamage": true,
+  "waterShutOff": null,
+  "accessDifficulty": null,
+  "ageOfPlumbing": null,
+  "jobId": "e4908653-d4a",
+  "sessionId": "session_38bc7801-30f3-43"
+}

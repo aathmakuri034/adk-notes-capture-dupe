@@ -1,0 +1,32 @@
+MODEL: Hello, I'm  your Job  Scope  Assistant.  What home  improvement  project  can I  help  you with  today?
+
+--- TURN COMPLETE ---
+
+USER: There is a crack in my toilet bowl.
+
+MODEL: Thank you.  Since  your toilet  bowl  is cracked,  we're looking  at a plumbing  issue,  likely  a fixture  replacement.  Do you  need  a replacement  toilet  installed,  or  is the  plan  to repair  the crack?
+
+--- TURN COMPLETE ---
+
+USER: I think I would like to repair the crack.
+
+MODEL: Is the  crack  visible  above  the waterline,  or is  it lower  down  or causing  a leak?
+
+--- TURN COMPLETE ---
+
+USER: It 's lower down and causing a leak.
+
+MODEL: Since it's  leaking,  repairing  the crack  might  not  be a  permanent  solution.  In that  case,  it's  likely  best  to replace  the toilet.  Does that  sound  right?
+
+--- TURN COMPLETE ---
+
+USER: sch ur
+
+MODEL: Great. I  have  enough  information.  Does  a summary  of  needing  a replacement  toilet  installed  sound  correct?
+
+--- TURN COMPLETE ---
+
+USER: Yes .
+
+--- TURN COMPLETE ---
+
