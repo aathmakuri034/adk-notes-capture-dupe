@@ -10,8 +10,8 @@ export interface NotesRepository {
   close(): void;
 }
 
-export interface JobExtractor {
-  extractFromNote(sessionId: string, title: string, description: string, details: string[]): Promise<void>;
+export interface JobSummaryService {
+  extractFromNote(sessionId: string, title: string, description: string, details: string[]): Promise<string | null>;
 }
 
 export interface ToolCallEvent {

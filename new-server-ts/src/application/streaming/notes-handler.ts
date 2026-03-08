@@ -1,16 +1,16 @@
 import type pino from 'pino';
-import type { NotesRepository, JobExtractor, Note } from './types.js';
+import type { NotesRepository, JobSummaryService, Note } from './types.js';
 
 export interface NotesHandlerDeps {
   logger: pino.Logger;
   notesRepository: NotesRepository;
-  jobExtractor: JobExtractor;
+  jobExtractor: JobSummaryService;
 }
 
 export class NotesHandler {
   private readonly logger: pino.Logger;
   private readonly notesRepository: NotesRepository;
-  private readonly jobExtractor: JobExtractor;
+  private readonly jobExtractor: JobSummaryService;
 
   constructor(deps: NotesHandlerDeps) {
     this.logger = deps.logger;

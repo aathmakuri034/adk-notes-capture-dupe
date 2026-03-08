@@ -29,6 +29,7 @@ const EnvSchema = z.object({
   STANDARD_API_TIMEOUT_MS: z.coerce.number().int().positive().default(60000),
   STANDARD_API_MAX_RETRIES: z.coerce.number().int().nonnegative().default(3),
   USE_STANDARD_API_FOR_VIDEO: booleanFromEnv.default(true),
+  JOB_OUTPUT_DIR: z.string().optional(),
 });
 
 export type EnvConfig = z.infer<typeof EnvSchema>;

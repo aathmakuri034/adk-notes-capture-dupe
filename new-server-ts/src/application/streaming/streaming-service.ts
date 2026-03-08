@@ -4,7 +4,7 @@
 // - MediaForwarder: stateless media forwarding
 // - NotesHandler: notes CRUD + job extraction
 
-export type { NotesRepository, JobExtractor, GeminiLiveClient, ToolCallEvent, StreamingSession, Note } from './types.js';
+export type { NotesRepository, JobSummaryService, GeminiLiveClient, ToolCallEvent, StreamingSession, Note } from './types.js';
 export { SessionManager } from './session-manager.js';
 export type { SessionManagerDeps } from './session-manager.js';
 export { MediaForwarder } from './media-forwarder.js';
