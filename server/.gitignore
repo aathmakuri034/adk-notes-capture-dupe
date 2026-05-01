@@ -43,3 +43,7 @@ wheels/
 .DS_Store
 Thumbs.db
 
+# Local Data being saved
+conversation_data/
+transcripts/
+voice_notes_data/
