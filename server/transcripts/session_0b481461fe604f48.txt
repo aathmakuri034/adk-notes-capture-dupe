@@ -1,0 +1,41 @@
+MODEL: Hello! I'm  your Job  Scope  Assistant.  What  home  improvement  project  can I  help  you with  today?
+
+--- TURN COMPLETE ---
+
+USER: I need to paint my ceiling. Ineed to paint my ceiling.
+MODEL: I can  help  with that.  Is  this  in one  room  or  multiple  rooms?
+
+--- TURN COMPLETE ---
+
+USER: This is in one room. Thisis in one room.
+MODEL: Is it  a standard  ceiling,  or  is it  particularly  high  (like  vaulted  or cathedral)?
+
+--- TURN COMPLETE ---
+
+USER: It 's Walter. It's Walter.
+MODEL: Do you  know the  approximate  size  of the  room?
+
+--- TURN COMPLETE ---
+
+USER: It 's about 300 ft. It's about 300 ft.
+MODEL: And what  color  will you  be using?
+
+--- TURN COMPLETE ---
+
+USER: red
+MODEL: It sounds  like  you're planning  to paint  a vaulted  ceiling  in a  300  square  foot  room  with red  paint.  Does that  sound  correct?
+
+--- TURN COMPLETE ---
+
+USER: Yes . Yes.
+
+--- TURN COMPLETE ---
+
+MODEL: Great, I've  saved  that.  Is there  anything  else  I can  help with?
+
+--- TURN COMPLETE ---
+
+USER: No
+
+--- TURN COMPLETE ---
+

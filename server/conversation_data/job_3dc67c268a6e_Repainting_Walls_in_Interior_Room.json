@@ -1,0 +1,29 @@
+{
+  "session_id": "session_9a7d47eba0214707",
+  "job_id": "3dc67c268a6e",
+  "user_id": "anon",
+  "category": "painting",
+  "title": "Repainting Walls in Interior Room",
+  "description": "Repaint the walls in an interior room.",
+  "location_type": "indoor",
+  "specific_location": "Interior Room",
+  "complexity": "intermediate",
+  "estimated_duration_minutes": 150,
+  "problem_type": "Aesthetic Update",
+  "key_details": [
+    "Interior room walls need repainting",
+    "Multiple walls to be painted",
+    "Job focused on aesthetic improvement"
+  ],
+  "has_images": false,
+  "has_video": false,
+  "created_at": "2026-01-09 10:47:24.577485",
+  "last_updated": "2026-01-09 10:47:24.589797",
+  "number_of_rooms": 1,
+  "sub_job_type": "Wall Ceiling Painting",
+  "rooms_to_paint": [
+    "Interior Room"
+  ],
+  "paint_ceilings": false,
+  "paint_trim": false
+}

@@ -1,0 +1,29 @@
+{
+  "session_id": "session_f3a182e8d806415f",
+  "job_id": "46416de63964",
+  "user_id": "anon",
+  "category": "plumbing",
+  "title": "Dripping Bathroom Faucet Repair",
+  "description": "Repair a dripping bathroom faucet in the bathroom.",
+  "location_type": "indoor",
+  "specific_location": "Bathroom",
+  "urgency": "medium",
+  "complexity": "basic",
+  "estimated_duration_minutes": 90,
+  "problem_type": "Leak",
+  "key_details": [
+    "Bathroom faucet needs repair",
+    "Issue is dripping from the spout"
+  ],
+  "has_images": false,
+  "has_video": false,
+  "created_at": "2026-01-16 20:13:46.747879",
+  "last_updated": "2026-01-16 20:13:46.790881",
+  "issue_type": "leak",
+  "fixture_type": "faucet",
+  "severity": "minor",
+  "water_damage": false,
+  "water_shut_off": false,
+  "access_difficulty": "easy",
+  "age_of_plumbing": "unknown"
+}

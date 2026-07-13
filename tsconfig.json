@@ -18,9 +18,6 @@
         "name": "next"
       }
     ],
-
-    //  REQUIRED FOR PATH ALIASES 
-    "baseUrl": ".",
     "paths": {
       "@/*": ["./*"]
     }

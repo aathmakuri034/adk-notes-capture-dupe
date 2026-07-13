@@ -1,0 +1,29 @@
+{
+  "session_id": "session_8fae2e060038436b",
+  "job_id": "df54fe8ffc58",
+  "user_id": "anon",
+  "category": "general",
+  "title": "Bedroom Door Replacement",
+  "description": "Replacement of a damaged interior bedroom door.",
+  "location_type": "indoor",
+  "specific_location": "Bedroom",
+  "urgency": "medium",
+  "complexity": "intermediate",
+  "estimated_duration_minutes": 150,
+  "problem_type": "Door Damage",
+  "key_details": [
+    "Bedroom location",
+    "Door replacement",
+    "Damaged with hole",
+    "Interior door"
+  ],
+  "has_images": false,
+  "has_video": false,
+  "created_at": "2026-01-09 05:44:10.962799",
+  "last_updated": "2026-01-09 05:44:11.019671",
+  "work_type": "Door Replacement",
+  "materials_needed": [
+    "new interior door"
+  ],
+  "estimated_scope": "Replace one damaged interior bedroom door."
+}

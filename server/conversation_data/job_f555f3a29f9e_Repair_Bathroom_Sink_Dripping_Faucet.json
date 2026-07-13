@@ -1,0 +1,30 @@
+{
+  "session_id": "session_59df11c50aa44770",
+  "job_id": "f555f3a29f9e",
+  "user_id": "anon",
+  "category": "plumbing",
+  "title": "Repair Bathroom Sink Dripping Faucet",
+  "description": "Customer needs a dripping faucet in their bathroom sink repaired.",
+  "location_type": "indoor",
+  "specific_location": "Bathroom Sink",
+  "urgency": "medium",
+  "complexity": "basic",
+  "estimated_duration_minutes": 75,
+  "problem_type": "Dripping Faucet",
+  "key_details": [
+    "Dripping faucet issue",
+    "Located in bathroom sink",
+    "Requires repair service"
+  ],
+  "has_images": false,
+  "has_video": false,
+  "created_at": "2026-01-08 17:38:55.027727",
+  "last_updated": "2026-01-08 17:38:55.029505",
+  "issue_type": "leak",
+  "fixture_type": "sink",
+  "severity": "minor",
+  "water_damage": false,
+  "water_shut_off": false,
+  "access_difficulty": "easy",
+  "age_of_plumbing": "unknown"
+}

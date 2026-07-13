@@ -1,0 +1,34 @@
+{
+  "session_id": "session_0b481461fe604f48",
+  "job_id": "d5e75750d04d",
+  "user_id": "anon",
+  "category": "painting",
+  "title": "Painting Vaulted Ceiling Red",
+  "description": "Painting a vaulted ceiling in a 300 sq ft room with red paint.",
+  "location_type": "indoor",
+  "specific_location": "One Room",
+  "urgency": "low",
+  "complexity": "intermediate",
+  "estimated_duration_minutes": 150,
+  "problem_type": "Ceiling Painting",
+  "key_details": [
+    "Vaulted ceiling to be painted",
+    "One 300 sq ft room",
+    "Red paint color"
+  ],
+  "has_images": false,
+  "has_video": false,
+  "created_at": "2026-01-08 23:37:21.131609",
+  "last_updated": "2026-01-08 23:37:21.133186",
+  "number_of_rooms": 1,
+  "room_size": "300 sq ft",
+  "paint_colors": [
+    "Red"
+  ],
+  "sub_job_type": "Wall Ceiling Painting",
+  "rooms_to_paint": [
+    "Room"
+  ],
+  "paint_ceilings": true,
+  "paint_trim": false
+}

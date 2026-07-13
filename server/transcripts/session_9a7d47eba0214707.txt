@@ -1,0 +1,30 @@
+MODEL: Hello, I'm  your Job  Scope  Assistant.  What home  improvement  project  can I  help you  with today?
+
+--- TURN COMPLETE ---
+
+USER: I need to paint my wall. Ineed to paint my wall.
+MODEL: Thank you.  To confirm,  is this  an interior  wall  or an  exterior  wall?
+
+--- TURN COMPLETE ---
+
+USER: This is an interior wall. Thisis an interior wall.
+MODEL: Understood. Is  this  a single  wall  or  multiple  walls  in a room?
+
+--- TURN COMPLETE ---
+
+USER: multiple worlds multipleworlds
+
+--- TURN COMPLETE ---
+
+MODEL: It sounds  like you  need  help  repainting  multiple  walls  in a room.  Does that  sound  correct?
+
+--- TURN COMPLETE ---
+
+USER: Yes . Yes.
+
+--- TURN COMPLETE ---
+
+MODEL: Great, I've  saved  that for  you.  Is there  anything  else?
+
+--- TURN COMPLETE ---
+

@@ -1,0 +1,37 @@
+MODEL: Hello! I'm  your Job  Scope  Assistant.  What home  improvement  project  can I  help  you with  today?
+
+--- TURN COMPLETE ---
+
+USER: I need to install a door. Ineed to install a door.
+MODEL: Okay, I  can help  with that.  To make  sure  I capture  the details  correctly,  is  this  an interior  or  exterior  door?
+
+--- TURN COMPLETE ---
+
+USER: interior door interiordoor
+MODEL: Is this  a brand  new  door  or  are you  replacing  an existing  one?
+
+--- TURN COMPLETE ---
+
+USER: Replacing the existing one. There's a hole through the f- the current one . Replacingthe existing one. There's a hole through the f- the current one.
+MODEL: Thank you.  Where  is this  interior  door  located  (e.g.,  bedroom,  bathroom,  closet)?
+
+--- TURN COMPLETE ---
+
+USER: bedroom
+MODEL: It sounds  like you  need  to replace  a damaged  bedroom  door.  Does that  summary  sound  correct?
+
+--- TURN COMPLETE ---
+
+USER: ज ash जash
+
+--- TURN COMPLETE ---
+
+MODEL: Great, I've  saved  the details  for that  project.  Is there  anything  else  I can  help you  with?
+
+--- TURN COMPLETE ---
+
+USER: Nope . Nope.
+MODEL: You're all  set!  Have a  good day.
+
+--- TURN COMPLETE ---
+

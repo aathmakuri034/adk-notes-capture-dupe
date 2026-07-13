@@ -1,0 +1,35 @@
+{
+  "session_id": "session_c4e08d89ecf94dbf",
+  "job_id": "eb83f031c397",
+  "user_id": "anon",
+  "category": "painting",
+  "title": "Interior wall painting multi-purpose room",
+  "description": "Paint the walls of a 250 sq ft multi-purpose room a new red color.",
+  "location_type": "indoor",
+  "specific_location": "Multi-purpose room",
+  "urgency": "low",
+  "complexity": "basic",
+  "estimated_duration_minutes": 60,
+  "problem_type": "Repainting",
+  "key_details": [
+    "Walls only to be painted",
+    "Approx 250 sq ft room size",
+    "New color is red",
+    "Located in multi-purpose room"
+  ],
+  "has_images": false,
+  "has_video": false,
+  "created_at": "2026-01-09 10:48:46.964982",
+  "last_updated": "2026-01-09 10:48:46.978410",
+  "number_of_rooms": 1,
+  "room_size": "250 sq ft",
+  "paint_colors": [
+    "Red"
+  ],
+  "sub_job_type": "Wall Ceiling Painting",
+  "rooms_to_paint": [
+    "Multi-purpose room"
+  ],
+  "paint_ceilings": false,
+  "paint_trim": false
+}

@@ -1,0 +1,33 @@
+{
+  "session_id": "session_c0bd2516ce104e31",
+  "job_id": "ea76d4c7d882",
+  "user_id": "anon",
+  "category": "electrical",
+  "title": "Kitchen Ceiling Lights Not Working",
+  "description": "Multiple ceiling lights in the kitchen are not turning on.",
+  "location_type": "indoor",
+  "specific_location": "Kitchen",
+  "urgency": "medium",
+  "complexity": "intermediate",
+  "estimated_duration_minutes": 120,
+  "problem_type": "Lighting malfunction",
+  "key_details": [
+    "Multiple lights affected",
+    "Location is the kitchen",
+    "Lights are ceiling-mounted",
+    "Primary issue: Not turning on"
+  ],
+  "has_images": false,
+  "has_video": false,
+  "created_at": "2026-01-13 02:31:19.960169",
+  "last_updated": "2026-01-13 02:31:19.998074",
+  "installation_type": "lighting",
+  "permits_required": false,
+  "sub_job_type": "Lighting Systems",
+  "lighting_type": "Ceiling Lights",
+  "number_of_fixtures": 2,
+  "rooms_for_lighting": [
+    "Kitchen"
+  ],
+  "dimmer_switches": false
+}

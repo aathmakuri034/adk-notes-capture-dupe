@@ -1,0 +1,35 @@
+{
+  "session_id": "session_989d908762eb437e",
+  "job_id": "1ea076cf0c09",
+  "user_id": "anon",
+  "category": "painting",
+  "title": "Living Room Ceiling Repaint with Prep",
+  "description": "Repainting living room ceiling with peeling paint requiring preparation.",
+  "location_type": "indoor",
+  "specific_location": "Living Room",
+  "urgency": "low",
+  "complexity": "intermediate",
+  "estimated_duration_minutes": 150,
+  "problem_type": "Peeling Paint",
+  "key_details": [
+    "Living Room location",
+    "3ft x 5ft dimensions",
+    "Peeling paint condition",
+    "Prep work required",
+    "Ceiling painting job"
+  ],
+  "has_images": false,
+  "has_video": false,
+  "created_at": "2026-01-10 00:53:43.648149",
+  "last_updated": "2026-01-10 00:53:43.671000",
+  "number_of_rooms": 1,
+  "room_size": "3ft x 5ft",
+  "surface_condition": "needs repair",
+  "prep_work_needed": "peeling paint prep",
+  "sub_job_type": "Wall Ceiling Painting",
+  "rooms_to_paint": [
+    "Living Room"
+  ],
+  "paint_ceilings": true,
+  "paint_trim": false
+}

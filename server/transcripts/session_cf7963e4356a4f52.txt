@@ -1,0 +1,45 @@
+MODEL: Hello! I'm  your Job  Scope  Assistant.  What  home  improvement  project  can I  help  you with  today?
+
+--- TURN COMPLETE ---
+
+USER: My talk. Mytalk.
+
+--- TURN COMPLETE ---
+
+USER: is backing out. isbacking out.
+MODEL: Understood, that's  a plumbing  issue.  Is  it just  the one  toilet  or  are  other  drains  showing  problems  too?
+
+--- TURN COMPLETE ---
+
+USER: [ BACKGROUND] [BACKGROUND]
+
+--- TURN COMPLETE ---
+
+USER: I ate just one toilet. Iate just one toilet.
+
+--- TURN COMPLETE ---
+
+MODEL: It sounds  like you  have a  clogged  toilet  that needs  to be  cleared.  Does that  summary  look  correct?
+
+--- TURN COMPLETE ---
+
+MODEL: It sounds  like you  have a  clogged  toilet  causing  a backup  that needs  clearing.  Does  that summary  sound  correct?
+
+--- TURN COMPLETE ---
+
+USER: Ja . Ja.
+
+--- TURN COMPLETE ---
+
+MODEL: Great, I've  saved  that for  you.  Is there  anything  else  I can  help with  today?
+
+--- TURN COMPLETE ---
+
+MODEL: Great, I've  saved  that for  you.  Is there  anything  else  I can  help  with today?
+
+--- TURN COMPLETE ---
+
+USER: G is 1 2 Gis 1 2
+
+--- TURN COMPLETE ---
+

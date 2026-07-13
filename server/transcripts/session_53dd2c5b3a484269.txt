@@ -1,0 +1,46 @@
+MODEL: Hello! I'm  your Job  Scope  Assistant.  What home  improvement  project  can I  help  you with  today?
+
+--- TURN COMPLETE ---
+
+USER: [ BACKGROUND] [BACKGROUND]
+
+--- TURN COMPLETE ---
+
+USER: I have a broken window and you to fix. Ihave a broken window and you to fix.
+MODEL: I can  help  with that.  To clarify,  is  this  a general  repair,  or  is it  related  to a  specific  type  of damage  that  falls  under  a different  category?
+
+--- TURN COMPLETE ---
+
+USER: Someone threw a baseball through it. Someonethrew a baseball through it.
+MODEL: Understood, that  sounds  like  a general  repair  project.  Where  is this  window  located  in your  home,  and  is it  a single  pane  or a double-pane  window?
+
+--- TURN COMPLETE ---
+
+USER: Double pay, no, dude. Doublepay, no, dude.
+MODEL: Got it.  And  where  is that  window  located—for  instance,  in the  kitchen,  bedroom,  or somewhere  else?
+
+--- TURN COMPLETE ---
+
+USER: It is located in my living room. Itis located in my living room.
+
+--- TURN COMPLETE ---
+
+
+--- TURN COMPLETE ---
+
+USER: Looking into my backyard. Lookinginto my backyard.
+
+--- TURN COMPLETE ---
+
+MODEL: Does this  summary  look  correct:  It  sounds  like  you have  a broken  double-pane  window  in your  living  room  that needs  replacement  due to  impact  damage.
+
+--- TURN COMPLETE ---
+
+USER: Yep . Yep.
+
+--- TURN COMPLETE ---
+
+MODEL: Great, I've  saved  that for  you.  Is there  anything  else  I can  help  with today?
+
+--- TURN COMPLETE ---
+

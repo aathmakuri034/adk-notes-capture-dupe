@@ -1,0 +1,32 @@
+{
+  "session_id": "session_fa3324e00703458e",
+  "job_id": "9fcea1f96591",
+  "user_id": "anon",
+  "category": "electrical",
+  "title": "Garage New 120v Circuit Installation",
+  "description": "Installation of a new 120-volt electrical circuit in the garage to support a mechanic shop, including approximately 6-7 new outlets.",
+  "location_type": "indoor",
+  "specific_location": "Garage",
+  "urgency": "low",
+  "complexity": "complex",
+  "estimated_duration_minutes": 240,
+  "problem_type": "New Circuit Installation",
+  "customer_notes": "To support a mechanic shop.",
+  "key_details": [
+    "New 120v electrical circuit installation",
+    "Installation in garage",
+    "Support for mechanic shop",
+    "6-7 new outlets needed",
+    "20A amperage circuit"
+  ],
+  "has_images": false,
+  "has_video": false,
+  "created_at": "2026-01-13 03:18:19.783119",
+  "last_updated": "2026-01-13 03:18:19.803740",
+  "installation_type": "circuit/outlet wiring",
+  "number_of_outlets": 6,
+  "voltage_requirement": "120V",
+  "amperage": 20,
+  "desired_location": "Garage",
+  "permits_required": true
+}

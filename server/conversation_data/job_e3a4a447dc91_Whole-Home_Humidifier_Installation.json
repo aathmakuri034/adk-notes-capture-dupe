@@ -1,0 +1,26 @@
+{
+  "session_id": "session_83cb7966067b443c",
+  "job_id": "e3a4a447dc91",
+  "user_id": "anon",
+  "category": "hvac",
+  "title": "Whole-Home Humidifier Installation",
+  "description": "Installation of a whole-home humidifier in the living room.",
+  "location_type": "indoor",
+  "specific_location": "Living Room",
+  "urgency": "low",
+  "complexity": "intermediate",
+  "estimated_duration_minutes": 150,
+  "problem_type": "New appliance installation",
+  "key_details": [
+    "Whole-home humidifier",
+    "Installation service",
+    "Located in living room"
+  ],
+  "has_images": false,
+  "has_video": false,
+  "created_at": "2026-01-08 23:23:03.280510",
+  "last_updated": "2026-01-08 23:23:03.281677",
+  "sub_job_type": "Humidifier",
+  "humidifier_type": "Whole house",
+  "install_or_repair": "New installation"
+}

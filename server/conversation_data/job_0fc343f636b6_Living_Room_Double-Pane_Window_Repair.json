@@ -1,0 +1,30 @@
+{
+  "session_id": "session_53dd2c5b3a484269",
+  "job_id": "0fc343f636b6",
+  "user_id": "anon",
+  "category": "general",
+  "title": "Living Room Double-Pane Window Repair",
+  "description": "A broken double-pane window in the living room needs replacement due to impact damage.",
+  "location_type": "indoor",
+  "specific_location": "Living Room",
+  "urgency": "medium",
+  "complexity": "intermediate",
+  "estimated_duration_minutes": 150,
+  "problem_type": "Window Repair",
+  "customer_notes": "Impact damage caused by a baseball.",
+  "key_details": [
+    "Double-pane window",
+    "Living Room location",
+    "Impact damage",
+    "Caused by baseball"
+  ],
+  "has_images": false,
+  "has_video": false,
+  "created_at": "2026-01-20 01:56:21.784495",
+  "last_updated": "2026-01-20 01:56:21.829839",
+  "work_type": "Window Replacement",
+  "materials_needed": [
+    "Double-pane window unit"
+  ],
+  "estimated_scope": "Replace broken double-pane window unit."
+}

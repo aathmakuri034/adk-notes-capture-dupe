@@ -1,0 +1,59 @@
+MODEL: Hello! I'm  your Job  Scope  Assistant.  What  home  improvement  project  can  I help  you with  today?
+
+--- TURN COMPLETE ---
+
+USER: I need a new faucet. Ineed a new faucet.
+MODEL: I can  help  with that.  To make  sure  I get  the details  correct,  is  this  a kitchen  or  bathroom  faucet  you're replacing?
+
+--- TURN COMPLETE ---
+
+USER: kitchen faucet kitchenfaucet
+MODEL: Great. Will  you be  providing  the new  faucet,  or  do you  need  help  with that  as well?
+
+--- TURN COMPLETE ---
+
+USER: I will not be providing a new faucet. Iwill not be providing a new faucet.
+MODEL: It sounds  like you  need  help  with removing  and installing  a new  kitchen  faucet.  Does  that sound  right?
+
+--- TURN COMPLETE ---
+
+USER: Yes . Yes.
+
+--- TURN COMPLETE ---
+
+MODEL: Perfect. I've  saved  that job  description.  Is  there anything  else  I can  assist  you with  today?
+
+--- TURN COMPLETE ---
+
+USER: I also have some wiring that needs to be attended to. Ialso have some wiring that needs to be attended to.
+MODEL: Okay, for  the wiring,  could  you tell  me  which  room  or  area  that's  in?
+
+--- TURN COMPLETE ---
+
+USER: It 's in my bathroom. It's in my bathroom.
+MODEL: And what  kind  of wiring  issue  is it—are  you looking  to repair  something,  install  a new  outlet,  or  something  else?
+
+--- TURN COMPLETE ---
+
+USER: I want to install a new outlet a GFCI outlet. Iwant to install a new outlet a GFCI outlet.
+MODEL: Do you  know  if the  existing  wiring  is accessible  and  up to  code,  how many  outlets  you need  installed?
+
+--- TURN COMPLETE ---
+
+USER: The existing wiring is accessible. I don't know if it's up to code but it's probably not. I'd like to Theexisting wiring is accessible. I don't know if it's up tocode but it's probably not. I'd like to
+
+--- TURN COMPLETE ---
+
+USER: Hub lets installed Hublets installed
+MODEL: It sounds  like you  need  help  installing  two  GFCI  outlets  in your  bathroom,  with  existing  wiring  accessible.  Does that  summary  capture  the request?
+
+--- TURN COMPLETE ---
+
+USER: Yes . Yes.
+
+--- TURN COMPLETE ---
+
+MODEL: Great, I've  saved  that job  description  as well.  Is there  anything  else  I can  help  you with?
+
+--- TURN COMPLETE ---
+

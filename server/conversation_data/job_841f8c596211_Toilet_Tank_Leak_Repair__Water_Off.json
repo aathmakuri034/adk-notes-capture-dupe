@@ -1,0 +1,30 @@
+{
+  "session_id": "session_0d7bd08556cb4db3",
+  "job_id": "841f8c596211",
+  "user_id": "anon",
+  "category": "plumbing",
+  "title": "Toilet Tank Leak Repair, Water Off",
+  "description": "Leak from the side of a toilet tank with the water currently shut off.",
+  "location_type": "indoor",
+  "specific_location": "Bathroom",
+  "urgency": "medium",
+  "complexity": "intermediate",
+  "estimated_duration_minutes": 150,
+  "problem_type": "Toilet Leak",
+  "key_details": [
+    "Leak from side of toilet tank",
+    "Water is currently shut off",
+    "Located in bathroom"
+  ],
+  "has_images": false,
+  "has_video": false,
+  "created_at": "2026-01-12 21:35:30.686649",
+  "last_updated": "2026-01-12 21:35:30.714881",
+  "issue_type": "leak",
+  "fixture_type": "toilet",
+  "severity": "moderate",
+  "water_damage": true,
+  "water_shut_off": true,
+  "access_difficulty": "easy",
+  "age_of_plumbing": "unknown"
+}

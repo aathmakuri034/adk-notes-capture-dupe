@@ -1,0 +1,40 @@
+MODEL: Hello! I'm  the Job  Scope  Assistant.  What  home  improvement  project  can I  help  you with  today?
+
+--- TURN COMPLETE ---
+
+USER: I need a new door. Ineed a new door.
+MODEL: Is this  an interior  or  exterior  door  replacement?
+
+--- TURN COMPLETE ---
+
+USER: interior
+MODEL: And what  type  of door  is it,  like  a bedroom  or closet  door?
+
+--- TURN COMPLETE ---
+
+USER: clos et door closet door
+MODEL: Is the  new  door  being  provided  by you,  or  will the  professional  need to  supply  it?
+
+--- TURN COMPLETE ---
+
+USER: Professional will need a supply it. Professionalwill need a supply it.
+MODEL: It sounds  like you  need  a new  closet  door  installed,  and  you'll need  the professional  to provide  it.  Does  that  summary  capture  everything?
+
+--- TURN COMPLETE ---
+
+USER: I need to have a lock on it as well. Ineed to have a lock on it as well.
+
+--- TURN COMPLETE ---
+
+MODEL: Got it.  I've  included  that  the new  door  needs  a lock.  Does that  summary  look correct?  It  sounds  like you  need  a new  closet  installed  includes  a lock,  and  you'll need  the professional  to provide  it.  Does  capture  everything? Got it. It sounds like you need a new closet door installed that includes a lock, and you'll need the professional to provide it. Does that summary capture everything?
+
+--- TURN COMPLETE ---
+
+USER: Yes . Yes.
+
+--- TURN COMPLETE ---
+
+MODEL: Great, I've  saved  that for  you.  Is  there anything  else? Great, I've saved that for you.
+
+--- TURN COMPLETE ---
+

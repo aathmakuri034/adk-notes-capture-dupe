@@ -1,0 +1,35 @@
+MODEL: Hello! I'm  your Job  Scope  Assistant.  What home  improvement  project  can I  help  you with  today?
+
+--- TURN COMPLETE ---
+
+USER: I would like to mount a TV. Iwould like to mount a TV.
+MODEL: To help  with that,  what  kind  of wall  are you  mounting  it on  (drywall,  brick,  concrete)?
+
+--- TURN COMPLETE ---
+
+USER: brick
+MODEL: Thank you.  And  where  is this  located,  in which  room?
+
+--- TURN COMPLETE ---
+
+USER: This is located inside my house at in my living room. Thisis located inside my house at in my living room.
+MODEL: Does that  involve  mounting  just  one  TV?
+
+--- TURN COMPLETE ---
+
+USER: Yes . Yes.
+
+--- TURN COMPLETE ---
+
+MODEL: It sounds  like you  need  help  mounting  one  TV  on a  brick  wall  in your  living  room.  Does that  summary  look correct?
+
+--- TURN COMPLETE ---
+
+USER: Dios . Dios.
+
+--- TURN COMPLETE ---
+
+MODEL: Great, I've  saved  that job  description.  Is there  anything  else  I can help  you with?
+
+--- TURN COMPLETE ---
+

@@ -1,0 +1,30 @@
+MODEL: Hello! I'm  your Job  Scope  Assistant.  What  home  improvement  project  can I  help  you with  today?
+
+--- TURN COMPLETE ---
+
+USER: I need to add a patio. Ineed to add a patio.
+MODEL: That falls  under  general  construction.  To finalize  the details,  could you  tell  me the  desired  size  of the  patio  and  where it  will be  located?
+
+--- TURN COMPLETE ---
+
+USER: want it to be in an oval shape. wantit to be in an oval shape.
+
+--- TURN COMPLETE ---
+
+USER: round 200 square feet round200 square feet
+
+--- TURN COMPLETE ---
+
+USER: And it will be in my backyard. Andit will be in my backyard.
+MODEL: It sounds  like you're  planning  a 200  square-foot  oval  patio  in your  backyard.  Does that  summary  sound  correct?
+
+--- TURN COMPLETE ---
+
+USER: Yep . Yep.
+
+--- TURN COMPLETE ---
+
+MODEL: Great, I've  saved  that job  description  for you.
+
+--- TURN COMPLETE ---
+

@@ -1,0 +1,28 @@
+{
+  "session_id": "session_3991c5cb6e1f46c2",
+  "job_id": "503ae872eb0c",
+  "user_id": "anon",
+  "category": "general",
+  "title": "Concrete Porch Crack Repair",
+  "description": "Repairs are needed on a concrete front porch to fill 3-4 cracks.",
+  "location_type": "outdoor",
+  "specific_location": "Front Porch",
+  "urgency": "low",
+  "complexity": "basic",
+  "estimated_duration_minutes": 90,
+  "problem_type": "Concrete cracks",
+  "key_details": [
+    "Concrete porch",
+    "Front porch location",
+    "3-4 cracks need repair"
+  ],
+  "has_images": false,
+  "has_video": false,
+  "created_at": "2026-01-08 23:26:17.518576",
+  "last_updated": "2026-01-08 23:26:17.520311",
+  "work_type": "Concrete repair",
+  "materials_needed": [
+    "Concrete repair filler"
+  ],
+  "estimated_scope": "Fill 3-4 cracks in concrete porch"
+}

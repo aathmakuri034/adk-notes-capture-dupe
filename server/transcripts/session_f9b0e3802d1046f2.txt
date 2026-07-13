@@ -1,0 +1,23 @@
+MODEL: Hello! I'm  your Job  Scope  Assistant.  What  home  improvement  project  can I  help  you with  today?
+
+--- TURN COMPLETE ---
+
+USER: Can you take a look at a video for me? Canyou take a look at a video for me?
+MODEL: Yes, I  can analyze  a video.  Please  upload  it.
+
+--- TURN COMPLETE ---
+
+VIDEO UPLOADED: session_f9b0e3802d1046f2_695aa869607b47a891484131a9f1bde0.mp4
+GCS URI: gs://workly-479617-job-assistant-media/uploads/1db904f2-70cc-4128-a723-3f064709c422.mp4
+
+MODEL: I cannot  see the  video  yet.  Could  you please  upload  it again?
+
+--- TURN COMPLETE ---
+
+VIDEO UPLOADED: session_f9b0e3802d1046f2_eac85885b7ac4a6491d604ebca6a6f4b.mp4
+GCS URI: gs://workly-479617-job-assistant-media/uploads/402ba44f-77c4-41fe-8280-65fb75584917.mp4
+
+MODEL: I still  can't  seem  to access  the video.  If  you can  describe  the issue  for me,  I can  help  identify  the project  type.
+
+--- TURN COMPLETE ---
+

@@ -1,0 +1,27 @@
+MODEL: Hello! I'm  your Job  Scope  Assistant.  What home  improvement  project  can I  help  you with  today?
+
+--- TURN COMPLETE ---
+
+USER: I need some repairs done on my front porch. Ineed some repairs done on my front porch.
+MODEL: Is the  repair  for  painting,  general  carpentry,  or something  else?
+
+--- TURN COMPLETE ---
+
+USER: General carpentry there are some cracks that need to be filled. Generalcarpentry there are some cracks that need to be filled.
+MODEL: Understood, so  this falls  under  general  repairs.  To get  that  properly  scoped,  can  you tell  me what  surface  material  the cracks  are in  (e.g.,  wood,  concrete),  and  how many  cracks  there are?
+
+--- TURN COMPLETE ---
+
+USER: It 's concrete. There's about three or four. It's concrete. There's about three or four.
+MODEL: Does this  summary  look  correct:  You need  repairs  done  on the  concrete  portion  of your  front  porch  to fill  a few  cracks?
+
+--- TURN COMPLETE ---
+
+USER: Yep . Yep.
+
+--- TURN COMPLETE ---
+
+MODEL: Great, I've  saved  that job  description.  Is  there anything  else  I can  help  you with?
+
+--- TURN COMPLETE ---
+

@@ -1,0 +1,32 @@
+MODEL: Hello! I'm  your Job  Scope  Assistant.  What home  improvement  project  can I  help  you with  today?
+
+--- TURN COMPLETE ---
+
+USER: I would like to install a chandelier. Iwould like to install a chandelier.
+MODEL: I can  help  with that.  To make  sure  I capture  the details  correctly,  where  in your  home  will this  be installed,  and  is there  an existing  light  fixture  there already?
+
+--- TURN COMPLETE ---
+
+USER: This will be installed in my dining room and yes, there is an existing light fixture there. Thiswill be installed in my dining room and yes, there is an existing light fixturethere.
+MODEL: Is the  chandelier  provided  or  will you  need  help  selecting  one?  Also,  will this  be replacing  a standard  light  fixture  a ceiling  fan?
+
+--- TURN COMPLETE ---
+
+USER: I will need help selecting one, and this will be replacing a standard light fixture. Iwill need help selecting one, and this will be replacing a standard light fixture.
+MODEL: It sounds  like  you need  help  installing  a new  chandelier  in your  dining  room,  replacing  an existing  light  fixture.  Does that  sound  correct?
+
+--- TURN COMPLETE ---
+
+USER: Yes . Yes.
+
+--- TURN COMPLETE ---
+
+MODEL: Great, I've  saved  that for  you.  Is there  anything  else  I can  help with  today?
+
+--- TURN COMPLETE ---
+
+USER: No . No.
+MODEL: You're all  set.  Have  a great  day!
+
+--- TURN COMPLETE ---
+

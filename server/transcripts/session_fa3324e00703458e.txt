@@ -1,0 +1,67 @@
+MODEL: Hello! I'm  your Job  Scope  Assistant.  What  home  improvement  project  can I  help  you with  today?
+
+--- TURN COMPLETE ---
+
+USER: I would like to add a 120 amp breaker to my garage. Iwould like to add a 120 amp breaker to my garage.
+MODEL: Thank you.  To clarify,  are  you adding  a new  breaker  to an  existing  panel,  or  are you  installing  circuit  for something  specific?
+
+--- TURN COMPLETE ---
+
+USER: I 'm installing a new circuit. I'm installing a new circuit.
+
+--- TURN COMPLETE ---
+
+USER: for a garage mechanics shop fora garage mechanics shop
+MODEL: Understood. And  is the  new circuit  for 120  volts
+
+--- TURN COMPLETE ---
+
+USER: next to windows nextto windows
+MODEL: I apologize  for the  confusion.  A breaker  typically  handles  the amperage,  and the  voltage  is usually  120  or  240  volts.  Given  you're installing  a new  circuit  for a  mechanic  shop,  will this  be a  standard  120-volt  circuit,  a higher  voltage? Understood. And is the new circuit for 120 voltsI apologize for the confusion. A breaker typically handles the amperage, and the voltage is usually 120 or 240 volts. Given you're installing a new circuit for a mechanic shop, will this be a standard 120-volt circuit, or a higher voltage?
+
+--- TURN COMPLETE ---
+
+USER: Yes , that's correct, standard 120 V circuit. Yes, that's correct, standard 120 V circuit.
+MODEL: Great. And  how many  outlets  will you  be adding?
+
+--- TURN COMPLETE ---
+
+USER: About 6 or 7. About6 or 7.
+MODEL: It sounds  like you're  looking  to install  a new  120-volt  circuit  with about  six  to seven  outlets  in your  garage  mechanic  shop.  Does that  summary  sound  correct?
+
+--- TURN COMPLETE ---
+
+MODEL: It sounds  like you're  installing  a new  120-volt  circuit  in your  garage  for a  mechanic  shop,  adding  about  six  or seven  outlets.  Does that  summary  look correct?
+
+--- TURN COMPLETE ---
+
+MODEL: It looks  like that  job  has already  been saved.  Is there  anything  else  I can  help  you with?
+
+--- TURN COMPLETE ---
+
+MODEL: It seems  I have  that  information  already.  Is there  anything  else  I can  help  you with?
+
+--- TURN COMPLETE ---
+
+MODEL: It looks  like that  job  has already  been saved.  Is there  anything  else  I can  help  you with?
+
+--- TURN COMPLETE ---
+
+USER: Yes . Yes.
+MODEL: What other  project  do you have?
+
+--- TURN COMPLETE ---
+
+USER: No , that's it. No, that's it.
+MODEL: Thank you!  Have  a great  day.
+
+--- TURN COMPLETE ---
+
+MODEL: It seems  I have  that  information  already.  Is there  anything  else  I can  help  you with?
+
+--- TURN COMPLETE ---
+
+MODEL: It looks  like that  job  has already  been saved.  Is there  anything  else  I can  help  you with?
+
+--- TURN COMPLETE ---
+

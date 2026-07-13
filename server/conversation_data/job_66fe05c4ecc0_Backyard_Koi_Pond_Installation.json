@@ -1,0 +1,30 @@
+{
+  "session_id": "session_5d0bc650f85d4a02",
+  "job_id": "66fe05c4ecc0",
+  "user_id": "anon",
+  "category": "general",
+  "title": "Backyard Koi Pond Installation",
+  "description": "Installation of a 50 sq ft koi pond in the top right corner of the backyard.",
+  "location_type": "outdoor",
+  "specific_location": "Top right corner of the backyard",
+  "urgency": "low",
+  "complexity": "complex",
+  "estimated_duration_minutes": 480,
+  "problem_type": "New Installation",
+  "key_details": [
+    "50 sq ft koi pond",
+    "Located in top right backyard corner",
+    "Outdoor installation",
+    "Requires excavation and plumbing"
+  ],
+  "has_images": false,
+  "has_video": false,
+  "created_at": "2026-01-09 09:18:44.749628",
+  "last_updated": "2026-01-09 09:18:44.751596",
+  "work_type": "New Construction",
+  "estimated_scope": "Install 50 sq ft koi pond in backyard",
+  "sub_job_type": "Home Additions",
+  "addition_type": "Koi Pond",
+  "approximate_square_feet": 50,
+  "foundation_needed": false
+}

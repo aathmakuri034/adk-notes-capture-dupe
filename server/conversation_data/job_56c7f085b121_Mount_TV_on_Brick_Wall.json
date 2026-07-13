@@ -1,0 +1,31 @@
+{
+  "session_id": "session_a8d3f3062e334ba6",
+  "job_id": "56c7f085b121",
+  "user_id": "anon",
+  "category": "general",
+  "title": "Mount TV on Brick Wall",
+  "description": "Mount a single TV on a brick wall in the living room.",
+  "location_type": "indoor",
+  "specific_location": "Living Room",
+  "urgency": "low",
+  "complexity": "intermediate",
+  "estimated_duration_minutes": 120,
+  "problem_type": "TV Mounting",
+  "tools_needed": "Hammer drill, masonry bits, TV mount hardware, level",
+  "key_details": [
+    "Mount single TV",
+    "On brick wall",
+    "In living room"
+  ],
+  "has_images": false,
+  "has_video": false,
+  "created_at": "2026-01-09 09:15:39.679575",
+  "last_updated": "2026-01-09 09:15:39.681647",
+  "work_type": "TV Mounting",
+  "materials_needed": [
+    "TV mount bracket",
+    "Masonry anchors"
+  ],
+  "estimated_scope": "Mount one TV to a brick wall in the living room.",
+  "special_requirements": "Requires drilling into brick."
+}

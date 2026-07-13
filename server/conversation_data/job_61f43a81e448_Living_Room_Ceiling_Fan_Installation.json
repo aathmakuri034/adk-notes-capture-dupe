@@ -1,0 +1,36 @@
+{
+  "session_id": "session_fdd952898f984f46",
+  "job_id": "61f43a81e448",
+  "user_id": "anon",
+  "category": "electrical",
+  "title": "Living Room Ceiling Fan Installation",
+  "description": "Installing a new ceiling fan in the living room, replacing an existing fixture.",
+  "location_type": "indoor",
+  "specific_location": "Living Room",
+  "urgency": "low",
+  "complexity": "intermediate",
+  "estimated_duration_minutes": 150,
+  "problem_type": "Installation",
+  "tools_needed": "Basic electrical tools, ladder, wire nuts, screwdrivers",
+  "key_details": [
+    "Installing a new ceiling fan",
+    "Replacing an existing fixture",
+    "Located in the Living Room",
+    "Fan is not provided by customer"
+  ],
+  "has_images": false,
+  "has_video": false,
+  "created_at": "2026-01-09 10:22:02.852596",
+  "last_updated": "2026-01-09 10:22:02.858963",
+  "installation_type": "lighting",
+  "desired_location": "Living Room ceiling",
+  "current_wiring": "Existing wiring present at fixture location",
+  "permits_required": false,
+  "sub_job_type": "Ceiling Fans",
+  "number_of_fans": 1,
+  "fan_locations": [
+    "Living Room"
+  ],
+  "existing_wiring": true,
+  "fan_provided": false
+}

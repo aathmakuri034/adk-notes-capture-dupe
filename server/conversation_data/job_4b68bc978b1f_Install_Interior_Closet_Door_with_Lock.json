@@ -1,0 +1,30 @@
+{
+  "session_id": "session_f7f1602489884643",
+  "job_id": "4b68bc978b1f",
+  "user_id": "anon",
+  "category": "general",
+  "title": "Install Interior Closet Door with Lock",
+  "description": "Installation of a new interior closet door, which requires a lock and supply by the professional.",
+  "location_type": "indoor",
+  "specific_location": "Interior Closet",
+  "urgency": "low",
+  "complexity": "intermediate",
+  "estimated_duration_minutes": 150,
+  "problem_type": "Door Installation",
+  "key_details": [
+    "Installation of new interior closet door",
+    "Door requires an integrated lock",
+    "Professional is responsible for supplying the door",
+    "Professional is responsible for supplying the lock"
+  ],
+  "has_images": false,
+  "has_video": false,
+  "created_at": "2026-01-13 20:06:24.682982",
+  "last_updated": "2026-01-13 20:06:24.731048",
+  "work_type": "Door Installation",
+  "materials_needed": [
+    "Interior closet door",
+    "Door lock and associated hardware"
+  ],
+  "estimated_scope": "Supply and install a new interior closet door with a lock."
+}

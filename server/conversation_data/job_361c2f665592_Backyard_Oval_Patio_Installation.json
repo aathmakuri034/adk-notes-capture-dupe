@@ -1,0 +1,25 @@
+{
+  "session_id": "session_bf16c8a089d84e50",
+  "job_id": "361c2f665592",
+  "user_id": "anon",
+  "category": "general",
+  "title": "Backyard Oval Patio Installation",
+  "description": "Installation of a 200 sq ft oval patio in the backyard.",
+  "location_type": "outdoor",
+  "specific_location": "Backyard",
+  "urgency": "low",
+  "complexity": "complex",
+  "estimated_duration_minutes": 480,
+  "problem_type": "New Construction",
+  "key_details": [
+    "Outdoor backyard installation",
+    "200 sq ft area",
+    "Oval shaped patio"
+  ],
+  "has_images": false,
+  "has_video": false,
+  "created_at": "2026-01-09 02:46:15.261853",
+  "last_updated": "2026-01-09 02:46:15.266644",
+  "work_type": "Patio Installation",
+  "estimated_scope": "Installation of a 200 sq ft oval patio"
+}

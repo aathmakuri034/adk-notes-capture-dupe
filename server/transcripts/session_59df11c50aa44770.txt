@@ -1,0 +1,27 @@
+MODEL: Hello! I'm  your Job  Scope  Assistant.  What home  improvement  project  can I  help you  with today?
+
+--- TURN COMPLETE ---
+
+USER: My faucet is dripping. Myfaucet is dripping.
+MODEL: Thank you.  To confirm,  is  this  a dripping  faucet  in your  kitchen  or a  bathroom?
+
+--- TURN COMPLETE ---
+
+USER: in my bathroom. inmy bathroom.
+MODEL: Is the  dripping  coming  from  the sink  faucet,  the shower,  or  a tub?
+
+--- TURN COMPLETE ---
+
+USER: S ymphony Symphony
+MODEL: It sounds  like you  need  help  fixing  a dripping  faucet  in your  bathroom  sink.  Does  that summary  look correct?
+
+--- TURN COMPLETE ---
+
+USER: Yes . Yes.
+
+--- TURN COMPLETE ---
+
+MODEL: Great, I've  saved  that for  you.  Is  there anything  else  I can help  with?
+
+--- TURN COMPLETE ---
+

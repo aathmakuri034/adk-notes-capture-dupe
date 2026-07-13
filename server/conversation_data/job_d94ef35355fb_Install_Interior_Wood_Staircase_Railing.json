@@ -1,0 +1,28 @@
+{
+  "session_id": "session_f27849a1f724477c",
+  "job_id": "d94ef35355fb",
+  "user_id": "anon",
+  "category": "general",
+  "title": "Install Interior Wood Staircase Railing",
+  "description": "Installation of a new wooden railing on an interior staircase.",
+  "location_type": "indoor",
+  "specific_location": "Interior Staircase",
+  "urgency": "low",
+  "complexity": "intermediate",
+  "estimated_duration_minutes": 150,
+  "problem_type": "Installation",
+  "key_details": [
+    "Interior staircase location",
+    "Wood material",
+    "New installation scope"
+  ],
+  "has_images": false,
+  "has_video": false,
+  "created_at": "2026-01-09 05:50:20.190751",
+  "last_updated": "2026-01-09 05:50:20.201246",
+  "work_type": "Installation",
+  "materials_needed": [
+    "Wood"
+  ],
+  "estimated_scope": "New Installation"
+}

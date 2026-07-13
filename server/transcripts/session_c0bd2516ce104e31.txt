@@ -1,0 +1,48 @@
+MODEL: Hello! I'm  your Job  Scope  Assistant.  What  home  improvement  project  can I  help  you with  today?
+
+--- TURN COMPLETE ---
+
+USER: with next withnext
+MODEL: I didn't  quite  catch  that.  Are you
+
+--- TURN COMPLETE ---
+
+USER: My lights aren't turning on. Mylights aren't turning on.
+MODEL: Okay, that  sounds  like an  electrical  issue.  Could  you tell  me where  the lights  aren't  working—for  example,  in the  living  room,  a bedroom,  or somewhere  else? I didn't quite catch that. Are youOkay, that sounds like an electrical issue. Could you tell me where the lights aren't working—for example, in the living room, a bedroom, or somewhere else?
+
+--- TURN COMPLETE ---
+
+USER: It 's in my kitchen. It's in my kitchen.
+MODEL: Is it  just  a single  light  fixture,  or  multiple  lights  in the kitchen?
+
+--- TURN COMPLETE ---
+
+USER: multiple eyes multipleeyes
+MODEL: And are  these  ceiling  lights,  lights  under  cabinets,  or  something  else?
+
+--- TURN COMPLETE ---
+
+USER: ceiling lights ceilinglights
+
+--- TURN COMPLETE ---
+
+MODEL: It sounds  like you  have an  issue  with multiple  ceiling  lights  in your  kitchen  not turning  on.  Does that  summary  sound  correct?
+
+--- TURN COMPLETE ---
+
+MODEL: that again.  It seems  I may  have already  saved  that information.  Does  this  summary  look  correct:  "It sounds  like you  have an  issue  with multiple  ceiling  lights  in your  kitchen  not  turning  on."
+
+--- TURN COMPLETE ---
+
+USER: Yes . Yes.
+
+--- TURN COMPLETE ---
+
+MODEL: Great, I've  saved  that for  you.  Is  there anything  else  I can  help  with today?
+
+--- TURN COMPLETE ---
+
+MODEL: I apologize  for the  technical  difficulty.  I have  saved  the details  for that  project.  Is there  anything  else  I can  help  you with?
+
+--- TURN COMPLETE ---
+

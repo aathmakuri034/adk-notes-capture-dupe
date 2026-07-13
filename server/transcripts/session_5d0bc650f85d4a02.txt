@@ -1,0 +1,27 @@
+MODEL: Hello, I'm  the Job  Scope  Assistant.  What  home  improvement  project  can I  help  you with  today?
+
+--- TURN COMPLETE ---
+
+USER: I would like to install a small koi pond in my backyard. Iwould like to install a small koi pond in my backyard.
+MODEL: Thank you.  To ensure  I capture  the details  correctly,  could  you confirm  the specific  location  in your  yard  and  the approximate  size  you are  considering
+
+--- TURN COMPLETE ---
+
+USER: It should be located to the top right corner of the yard and I'd like it to be around 50 sq ft. Itshould be located to the top right corner of the yard and I'd likeit to be around 50 sq ft.
+MODEL: It sounds  like you're  planning  to install  a 50  square-foot  koi  pond  in the  top  right  corner  of your  yard.  Does that  summary  sound  correct?
+
+--- TURN COMPLETE ---
+
+USER: Yes . Yes.
+
+--- TURN COMPLETE ---
+
+MODEL: Great, I've  saved  that job  description.  Is there  anything  else  I can  help you  with today?
+
+--- TURN COMPLETE ---
+
+USER: Nope . Nope.
+MODEL: You're all  set!  Have  a good  day.
+
+--- TURN COMPLETE ---
+

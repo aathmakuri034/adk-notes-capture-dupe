@@ -1,0 +1,48 @@
+MODEL: Hello, I'm  the Job  Scope  Assistant.  What  home  improvement  project  can I  help  you with  today?
+
+--- TURN COMPLETE ---
+
+USER: I help repairing a toilet
+MODEL: I can  certainly  help  with that.  To figure  out what's  going  on,  could  you tell  me if  the toilet  is leaking,  constantly  running,  or  experiencing  a clog?
+
+--- TURN COMPLETE ---
+
+USER: it is leaking
+MODEL: Is the  leak  coming  from  the base  of the  toilet,  the tank,  or  somewhere  else?
+
+--- TURN COMPLETE ---
+
+USER: tank
+MODEL: Is the  leak  coming  from  the bottom  of the  tank,  or  somewhere  else  on it?
+
+--- TURN COMPLETE ---
+
+USER: on the side
+MODEL: Thank you.  Is  the toilet  making  a gurgling  noise,  or  is the  water  shutoff  accessible?
+
+--- TURN COMPLETE ---
+
+USER: I have shutoff water
+
+--- TURN COMPLETE ---
+
+MODEL: It sounds  like you  have a  leak  from the  side  of your  toilet  tank,  and  the water  has been  shut off.  Does this  summary  look correct?
+
+--- TURN COMPLETE ---
+
+MODEL: It sounds  like you  have a  leak  from the  side  of your  toilet  tank,  and the  water  has been  shut  off.  Does that  summary  sound  correct?
+
+--- TURN COMPLETE ---
+
+USER: yes
+
+--- TURN COMPLETE ---
+
+MODEL: Great, I've  saved  that for  you.  Is there  anything  else  I can  assist  you with?
+
+--- TURN COMPLETE ---
+
+MODEL: Great, I've  saved  that for  you.
+
+--- TURN COMPLETE ---
+

@@ -1,0 +1,33 @@
+MODEL: Hello. I'm  the Job  Scope  Assistant.  What home  improvement  project  can I  help  you with  today?
+
+--- TURN COMPLETE ---
+
+USER: I need to install a ceiling fan. Ineed to install a ceiling fan.
+MODEL: I can  help with  that.  Do you  already  have the  fan  provided,  and  will this  be replacing  an existing  fixture  or is  this a  new installation  point?
+
+--- TURN COMPLETE ---
+
+USER: No , I don't already have the fan. This will replace an existing fixture . No, I don't already have the fan. This will replace an existing fixture.
+MODEL: Got it.  Where  will this  installation  take  place?
+
+--- TURN COMPLETE ---
+
+USER: In my living room. Inmy living room.
+MODEL: It sounds  like you're  looking  to replace  a fixture  in your  living  room  with a  new ceiling  fan.  Does that  summary  sound  correct?
+
+--- TURN COMPLETE ---
+
+MODEL: It sounds  like you're  looking  to install  a new  ceiling  fan  in your  living  room  where a  fixture  already  is.  Does that  summary  sound  correct?
+
+--- TURN COMPLETE ---
+
+USER: Jo , ja, ja, ja. Jo, ja, ja, ja.
+MODEL: Great, I've  saved  that for  you.  Is  there anything  else  I can  help with  today?
+
+--- TURN COMPLETE ---
+
+USER: No , thank you. No, thank you.
+MODEL: You're welcome.  Have  a great  day!
+
+--- TURN COMPLETE ---
+

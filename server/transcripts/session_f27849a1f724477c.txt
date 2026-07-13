@@ -1,0 +1,45 @@
+MODEL: Hello, I'm  your Job  Scope  Assistant.  What home  improvement  project  can I  help  you with  today?
+
+--- TURN COMPLETE ---
+
+USER: I need to install a railing. Ineed to install a railing.
+MODEL: To help  categorize  this,  is  this  for an  interior  or  exterior  project?
+
+--- TURN COMPLETE ---
+
+USER: interior
+MODEL: Understood. Is  this  for a  staircase,  a hallway,  or  somewhere  else?
+
+--- TURN COMPLETE ---
+
+USER: st aircase staircase
+MODEL: And typically  interior  railings  come  in materials  like  wood  or metal.  Do you  have a  preference?
+
+--- TURN COMPLETE ---
+
+USER: I want wood. Iwant wood.
+MODEL: Is there  an existing  railing  that needs  to be  removed,  or  is this  a new  installation?
+
+--- TURN COMPLETE ---
+
+USER: new installation newinstallation
+MODEL: It sounds  like you  need  to install  a new  wooden  railing  on your  staircase.  Does that  sound  correct?
+
+--- TURN COMPLETE ---
+
+USER: Yes . Yes.
+
+--- TURN COMPLETE ---
+
+MODEL: Great, I've  saved  that for  you.  Is there  anything  else  I can  help  with?
+
+--- TURN COMPLETE ---
+
+USER: Nope . Nope.
+
+--- TURN COMPLETE ---
+
+MODEL: You're all  set.  Have  a great  day!
+
+--- TURN COMPLETE ---
+
