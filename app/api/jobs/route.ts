@@ -16,13 +16,15 @@ function getBlobContainerClient() {
 
 export async function GET() {
   try {
-    // AUTH CHECK
+    // SUPABASE-DISABLED-DEMO: auth check removed for the demo. Original below.
+    /* SUPABASE-DISABLED-DEMO
     const supabase = await createSupabaseServerClient();
     const { data: { user } } = await supabase.auth.getUser();
 
     if (!user) {
       return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
     }
+    */
 
     // FETCH JOBS FROM AZURE BLOB STORAGE
     const containerClient = getBlobContainerClient();

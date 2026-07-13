@@ -6,13 +6,15 @@ import { createSupabaseServerClient } from "@/lib/supabaseServer";
 
 export async function GET() {
   try {
-    // AUTH CHECK
+    // SUPABASE-DISABLED-DEMO: auth check removed for the demo. Original below.
+    /* SUPABASE-DISABLED-DEMO
     const supabase = await createSupabaseServerClient();
     const { data: { user } } = await supabase.auth.getUser();
 
     if (!user) {
       return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
     }
+    */
 
     // READ NOTE FILES
     const notesDir = path.join(process.cwd(), "server", "voice_notes_data");
@@ -54,13 +56,15 @@ export async function GET() {
 
 export async function DELETE(request: Request) {
   try {
-    // AUTH CHECK
+    // SUPABASE-DISABLED-DEMO: auth check removed for the demo. Original below.
+    /* SUPABASE-DISABLED-DEMO
     const supabase = await createSupabaseServerClient();
     const { data: { user } } = await supabase.auth.getUser();
 
     if (!user) {
       return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
     }
+    */
 
     const { searchParams } = new URL(request.url);
     const noteId = searchParams.get("id");

@@ -3,6 +3,12 @@ import { cookies } from "next/headers";
 import { createSupabaseServerClient } from "@/lib/supabaseServer";
 
 export async function GET() {
+  // SUPABASE-DISABLED-DEMO: logout no longer hits Supabase or clears sb-* cookies.
+  // The route now just redirects to "/" since the login page is also disabled.
+  // Original implementation preserved below.
+  return NextResponse.redirect(new URL("/", "http://localhost:3000"));
+
+  /* SUPABASE-DISABLED-DEMO
   const supabase = await createSupabaseServerClient();  // ← Add await here
 
   // Supabase side logout
@@ -21,4 +27,5 @@ export async function GET() {
   });
 
   return response;
+  */
 }

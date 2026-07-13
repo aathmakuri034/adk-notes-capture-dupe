@@ -6,6 +6,28 @@ import { useRouter } from "next/navigation";
 import { supabaseClient } from "@/lib/supabaseClient";
 
 export default function SignupPage() {
+  // SUPABASE-DISABLED-DEMO: signup form is disabled for the demo. A placeholder
+  // is rendered instead. Original component body preserved below.
+  return (
+    <div className="min-h-screen flex items-center justify-center bg-gray-50 px-4">
+      <div className="w-full max-w-md bg-white p-8 rounded-2xl shadow-xl border border-gray-200 text-center">
+        <h1 className="text-2xl font-semibold text-gray-800 mb-3">
+          Signup Disabled
+        </h1>
+        <p className="text-gray-600 mb-4">
+          Authentication is turned off in this demo build.
+        </p>
+        <a
+          href="/"
+          className="inline-block py-2 px-4 bg-indigo-600 text-white rounded-lg hover:bg-indigo-700 transition font-medium shadow-md"
+        >
+          Continue to app →
+        </a>
+      </div>
+    </div>
+  );
+
+  /* SUPABASE-DISABLED-DEMO
   const router = useRouter();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -91,4 +113,5 @@ export default function SignupPage() {
       </div>
     </div>
   );
+  */
 }

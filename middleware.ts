@@ -3,8 +3,19 @@ import { NextResponse } from "next/server";
 import type { NextRequest } from "next/server";
 
 export async function middleware(req: NextRequest) {
+  // SUPABASE-DISABLED-DEMO: auth gate is disabled for the demo. The original
+  // logic (Supabase client creation, getUser(), and login/home redirects) is
+  // preserved below in a comment block so it can be re-enabled by deleting
+  // this stub and uncommenting the block.
+  return NextResponse.next({
+    request: {
+      headers: req.headers,
+    },
+  });
+
+  /* SUPABASE-DISABLED-DEMO
   console.log("🔥 MIDDLEWARE HIT:", req.nextUrl.pathname);
-  
+
   let response = NextResponse.next({
     request: {
       headers: req.headers,
@@ -35,7 +46,7 @@ export async function middleware(req: NextRequest) {
 
   const pathname = req.nextUrl.pathname;
   const isAuthPage = pathname === "/login" || pathname === "/signup";
-  
+
   console.log("📍 Path:", pathname, "| Is Auth Page?", isAuthPage);
 
   let user = null;
@@ -59,6 +70,7 @@ export async function middleware(req: NextRequest) {
 
   console.log("✅ Allowing through");
   return response;
+  */
 }
 
 export const config = {

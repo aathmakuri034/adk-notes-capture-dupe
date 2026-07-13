@@ -644,8 +644,9 @@ const ChatInterface = forwardRef<ChatInterfaceRef, ChatInterfaceProps>(({
                 {/* LOGOUT BUTTON */}
                 <button
                     onClick={async () => {
-                        await supabaseClient.auth.signOut();
-                        window.location.href = "/login";
+                        // SUPABASE-DISABLED-DEMO: skip Supabase signOut; just reload home.
+                        // await supabaseClient.auth.signOut();
+                        window.location.href = "/";
                     }}
                     className="ml-4 bg-red-500 hover:bg-red-600 text-white px-3 py-1.5 rounded-lg text-sm font-medium transition-all shadow-md"
                 >

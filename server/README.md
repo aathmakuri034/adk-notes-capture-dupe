@@ -298,6 +298,45 @@ asyncio.run(test())
 - Use environment-specific configurations
 - Implement health checks and graceful shutdown
 
+## Demo Mode: Supabase Auth Disabled
+
+Supabase authentication is **disabled** in this demo build. Every Supabase
+call site has been commented out (not deleted), so the original behavior can
+be restored by uncommenting a handful of clearly-marked blocks.
+
+### Convention
+
+Every disabled block is tagged with the marker `SUPABASE-DISABLED-DEMO`. To
+find them all:
+
+```bash
+grep -rn "SUPABASE-DISABLED-DEMO" .
+```
+
+### What's disabled
+
+| File | What was disabled |
+| --- | --- |
+| `middleware.ts` | The session check + redirects to `/login` and `/`. The middleware now passes every request through. |
+| `app/login/page.tsx` | The login form is replaced by a "Login Disabled" placeholder linking to `/`. |
+| `app/login/actions.ts` | `loginAction` now returns `{ success: true }` immediately without calling `signInWithPassword`. |
+| `app/signup/page.tsx` | The signup form is replaced by a "Signup Disabled" placeholder. |
+| `app/api/jobs/route.ts` | The `getUser()` 401 gate on `GET /api/jobs` is removed. |
+| `app/api/jobs/notes/route.ts` | Both 401 gates on `GET` and `DELETE /api/jobs/notes` are removed. |
+| `app/api/jobs/auth/logout/route.ts` | The route no longer calls `signOut()` or clears `sb-*` cookies; it just redirects to `/`. |
+| `components/ChatInterface.tsx` | The logout button no longer calls `supabaseClient.auth.signOut()`; it just navigates to `/`. |
+
+### What's still in place
+
+- `lib/supabaseClient.ts` and `lib/supabaseServer.ts` are untouched but no longer called at runtime.
+- `@supabase/auth-helpers-nextjs`, `@supabase/ssr`, and `@supabase/supabase-js` remain installed in `package.json`.
+- The `NEXT_PUBLIC_SUPABASE_*` env vars in `.env.local.example`, `Dockerfile`, and `docker-compose.yaml` are untouched but unread.
+
+### Re-enabling
+
+Search for `SUPABASE-DISABLED-DEMO`, then in each tagged file delete the stub
+return / placeholder JSX and uncomment the original block immediately below it.
+
 ## License
 
 MIT
