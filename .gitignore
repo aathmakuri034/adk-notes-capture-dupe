@@ -33,3 +33,5 @@ pnpm-debug.log*
 Thumbs.db
 
 tsconfig.tsbuildinfo
+CLAUDE.md
+server/conversation_data
