@@ -35,3 +35,5 @@ Thumbs.db
 tsconfig.tsbuildinfo
 CLAUDE.md
 server/conversation_data
+package-lock.json
+pnpm-lock.json
