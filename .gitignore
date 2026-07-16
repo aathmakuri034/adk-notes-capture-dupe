@@ -28,6 +28,7 @@ yarn-debug.log*
 yarn-error.log*
 pnpm-debug.log*
 
-# OS
+# Build files
 .DS_Store
 Thumbs.db
+tsconfig.tsbuildinfo
