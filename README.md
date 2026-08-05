@@ -2,6 +2,9 @@
 
 A complete voice notes capture application with a Next.js frontend and Python backend powered by Google ADK (Agent Development Kit).
 
+## Watch a live demo
+https://youtube.com/shorts/khrIwOJRDRw?feature=share
+
 ## Project Structure
 
 ```
